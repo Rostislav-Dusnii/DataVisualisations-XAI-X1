@@ -12,22 +12,21 @@ DataVisualisations-XAI-X1/
 ├── run_app.R          # Launch script with auto-install
 ├── validate_app.R     # Syntax and structure validator
 │
-├── Documentation/
-│   ├── README.md           # Main documentation
-│   ├── QUICKSTART.md       # Quick start guide
-│   ├── EXAMPLES.md         # Usage examples and workflows
-│   ├── UI_GUIDE.md         # Visual layout and interface guide
-│   ├── DEPLOYMENT.md       # Deployment options
-│   └── CONTRIBUTING.md     # Contribution guidelines
+├── README.md          # Main documentation
+├── QUICKSTART.md      # Quick start guide
+├── EXAMPLES.md        # Usage examples and workflows
+├── UI_GUIDE.md        # Visual layout and interface guide
+├── DEPLOYMENT.md      # Deployment options
+├── CONTRIBUTING.md    # Contribution guidelines
+├── PROJECT_SUMMARY.md # Project overview (this file)
 │
-├── Configuration/
-│   ├── DESCRIPTION         # R package metadata
-│   ├── .Rprofile          # Project-specific R settings
-│   ├── .gitignore         # Git ignore rules
-│   └── LICENSE            # MIT License
+├── DESCRIPTION        # R package metadata
+├── .Rprofile         # Project-specific R settings
+├── .gitignore        # Git ignore rules
+├── LICENSE           # MIT License
 │
 └── data/
-    └── README.md          # Guide for custom datasets
+    └── README.md     # Guide for custom datasets
 ```
 
 ## Application Features
@@ -196,7 +195,7 @@ The application is ready for:
 ### Quickest Start
 ```bash
 # Clone the repository
-git clone https://github.com/Rostislav-Dusnii/DataVisualisations-XAI-X1.git
+git clone <repository-url>
 cd DataVisualisations-XAI-X1
 
 # Run the app (auto-installs dependencies)
