@@ -37,21 +37,18 @@ ui <- page_navbar(
   # Page 1: ML Training
   nav_panel(
     "1. Train Models",
-    icon = icon("brain"),
     mod_page1_ui("page1")
   ),
 
   # Page 2: Visualizations
   nav_panel(
     "2. Visualizations",
-    icon = icon("chart-line"),
     mod_page2_ui("page2")
   ),
 
   # Page 3: AI Chatbot
   nav_panel(
     "3. Ask AI",
-    icon = icon("comments"),
     mod_page3_ui("page3")
   )
 )
