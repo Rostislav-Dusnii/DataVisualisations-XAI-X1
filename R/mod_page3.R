@@ -3,8 +3,8 @@ mod_page3_ui <- function(id) {
 
   tagList(
     h2("Ask Questions About the Model"),
-    ),
     shinychat::chat_ui(ns("chat"), height = "600px")
+  )
 }
 
 mod_page3_server <- function(id, model_context = reactive(NULL)) {
