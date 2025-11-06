@@ -15,7 +15,10 @@ library(modelStudio)
 
 # --- Load Environment Variables ---
 dotenv::load_dot_env(".env")
-stopifnot(nzchar(Sys.getenv("OPENAI_API_KEY")))
+# Check if API key is set, warn if not
+if (!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
+  warning("OPENAI_API_KEY not found in .env file. Page 3 chatbot will not work.")
+}
 
 # --- Source Modules ---
 source("R/xai_helpers.R")
