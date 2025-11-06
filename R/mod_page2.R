@@ -1,10 +1,3 @@
-# =============================================================================
-# Page 2 - Model Visualizations
-# =============================================================================
-# Converted from ModelOriented/test.R to a Shiny module
-
-#' Page 2 UI - Model Visualizations
-#' @param id Module namespace ID
 mod_page2_ui <- function(id) {
   ns <- NS(id)
 
@@ -13,9 +6,6 @@ mod_page2_ui <- function(id) {
   )
 }
 
-#' Page 2 Server - Model Visualizations
-#' @param id Module namespace ID
-#' @return Reactive with model context for Page 3 chatbot
 mod_page2_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -43,15 +33,14 @@ mod_page2_server <- function(id) {
     new_observation <- test[1:2, ]
     rownames(new_observation) <- c("id1", "id2")
 
-    # Create modelStudio without specifying widget_id to avoid conflicts
     ms <- modelStudio::modelStudio(explainer, new_observation)
 
-    # Render the widget directly without wrapper
+    # render the widget without wrapper
     output$dashboard <- renderUI({
       ms
     })
 
-    # Return model context for Page 3 chatbot
+    # return model context for our chatbot
     model_context <- reactive({
       list(
         dataset = "Apartments (Warsaw, Poland)",

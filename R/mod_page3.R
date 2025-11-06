@@ -1,40 +1,25 @@
-# =============================================================================
-# Page 3 - AI Chatbot
-# =============================================================================
-
-#' Page 3 UI - AI Chatbot
-#' @param id Module namespace ID
 mod_page3_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
     h2("Ask Questions About the Model"),
-    p(class = "text-muted",
-      "Use this AI chatbot to ask questions about the model visualizations from Page 2."
     ),
-    p("Examples: 'What does this model predict?', 'Which features are most important?', ",
-      "'How accurate is the model?', 'Explain the predictions'"),
-    hr(),
     shinychat::chat_ui(ns("chat"), height = "600px")
-  )
 }
 
-#' Page 3 Server - AI Chatbot
-#' @param id Module namespace ID
-#' @param model_context Reactive containing model information from Page 2
 mod_page3_server <- function(id, model_context = reactive(NULL)) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Handle user questions
+    # handle questions
     observeEvent(input$chat_user_input, {
       user_question <- input$chat_user_input
       req(user_question)
 
-      # Get model context from Page 2
+      # get context from page 2
       context <- model_context()
 
-      # Build context string for AI
+      # context string for AI
       if (!is.null(context)) {
         context_text <- paste0(
           "You are helping explain a machine learning model.\n\n",
@@ -57,7 +42,7 @@ mod_page3_server <- function(id, model_context = reactive(NULL)) {
         )
       }
 
-      # Get AI response
+      # response
       tryCatch({
         ai_response <- gpt_complete(
           system_prompt = paste0(
@@ -70,7 +55,7 @@ mod_page3_server <- function(id, model_context = reactive(NULL)) {
           temperature = 0.3
         )
 
-        # Add response to chat
+        # add response to chat
         shinychat::chat_append("chat", markdownify(ai_response), session = session)
 
       }, error = function(e) {

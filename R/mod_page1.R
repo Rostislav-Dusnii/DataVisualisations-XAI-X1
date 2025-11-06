@@ -1,4 +1,3 @@
-#' @param id Module namespace ID
 mod_page1_ui <- function(id) {
   ns <- NS(id)
 
@@ -15,8 +14,6 @@ mod_page1_ui <- function(id) {
 }
 
 
-#' @param id Module namespace ID
-#' @return Reactive with trained model
 mod_page1_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     # just a placeholder for now
