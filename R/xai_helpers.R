@@ -6,6 +6,32 @@ markdownify <- function(txt) {
   HTML(txt)
 }
 
+gpt_complete <- function(system_prompt, user_prompt, model = "gpt-4o-mini", temperature = 0.7) {
+  api_key <- Sys.getenv("OPENAI_API_KEY")
+
+  if (api_key == "") {
+    stop("OPENAI_API_KEY environment variable not set")
+  }
+
+  response <- httr2::request("https://api.openai.com/v1/chat/completions") |>
+    httr2::req_headers(
+      "Authorization" = paste("Bearer", api_key),
+      "Content-Type" = "application/json"
+    ) |>
+    httr2::req_body_json(list(
+      model = model,
+      temperature = temperature,
+      messages = list(
+        list(role = "system", content = system_prompt),
+        list(role = "user", content = user_prompt)
+      )
+    )) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json()
+
+  response$choices[[1]]$message$content
+}
+
 summarize_xy <- function(d, x, y) {
   d <- stats::na.omit(d[, c(x, y), drop = FALSE])
   n <- nrow(d)
