@@ -16,9 +16,9 @@ shinyML_regression <- function(data = data, y) {
   library(shinyjs)
   library(lubridate)
 
-  source("modules/UI.R")
+  source("modules/ui.R")
   ui_parts <- import_UI(data = data, y = y)
-  source("modules/Server.R")
+  source("modules/server.R")
   server_part <- create_shinyML_Server(data = data, y = y)
 
   ## ---------------------------------------------------------------------------- LAUNCH APP  -----------------------------------
