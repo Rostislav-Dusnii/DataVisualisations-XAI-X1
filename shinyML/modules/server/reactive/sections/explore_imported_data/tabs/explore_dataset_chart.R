@@ -8,9 +8,9 @@ output$dataset_chart <- renderPlotly({
     data_train_chart <- eval(parse(text = paste0("data[", input$time_series_select_column, " >= input$train_selector[1],][", input$time_series_select_column, " <= input$train_selector[2],]")))
     data_test_chart <- eval(parse(text = paste0("data[", input$time_series_select_column, " > input$test_selector[1],][", input$time_series_select_column, " <= input$test_selector[2],]")))
   } else if (input$checkbox_time_series == FALSE) {
-    req(!is.null(train_test_data()[["train"]]))
-    data_train_chart <- train_test_data()[["train"]]
-    data_test_chart <- train_test_data()[["test"]]
+    req(!is.null(train_test_data()[["data_train"]]))
+    data_train_chart <- train_test_data()[["data_train"]]
+    data_test_chart <- train_test_data()[["data_test"]]
   }
 
   plot_ly(

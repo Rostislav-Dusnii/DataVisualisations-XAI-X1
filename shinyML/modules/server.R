@@ -23,16 +23,6 @@ create_shinyML_Server <- function(data, y) {
   # Initialize scalar values
   scaled_importance <- NULL
   variable <- NULL
-  Predicted_value <- NULL
-  Model <- NULL
-  `.` <- NULL
-  `MAPE(%)` <- NULL
-  Counter <- NULL
-  feature <- NULL
-  importance <- NULL
-  fit <- NULL
-  prediction <- NULL
-  `..density..` <- NULL
 
   server <- function(session, input, output) {
     shared_env <- list2env(list(
@@ -52,9 +42,9 @@ create_shinyML_Server <- function(data, y) {
     source_dir("modules/server/reactive/sections/explore_results", local = shared_env)
     source_dir("modules/server/reactive/ml")
 
-
+    split <- list(train = 70)
     train_test_data <- reactive({
-      prepare_data_for_models(data, input, test_1, test_2, train_1, model)
+      prepare_data_for_models(data, split)
     })
 
     model_training_results <- reactive({
@@ -66,8 +56,13 @@ create_shinyML_Server <- function(data, y) {
         v_grad$type_model,
         v_auto_ml$type_model
       )
+
+      var_input_list <- model$train_variables
+      if (length(var_input_list) == 0) var_input_list <- character(0)
+
       train_results <- train_models(
         prep_data,
+        var_input_list,
         selected_models,
         y,
         parameter
@@ -82,7 +77,7 @@ create_shinyML_Server <- function(data, y) {
         trained_models,
         prep_data
       )
-      table_results
+      list(table_results = table_results)
     })
   }
 

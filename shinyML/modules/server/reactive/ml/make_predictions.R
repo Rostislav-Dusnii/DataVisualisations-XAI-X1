@@ -8,7 +8,6 @@ make_predictions <- function(trained_models, prep_data) {
   }
 
   all_results_unnamed <- unname(all_results)
-  cat("saa", prep_data$data_h2o_test, "asas")
   table_results <- cbind(prep_data$data_test, do.call(cbind, all_results_unnamed))
 
   table_results
