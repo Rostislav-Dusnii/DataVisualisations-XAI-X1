@@ -5,5 +5,5 @@ get_date_columns <- function(data) {
       dates_columns_list <- c(dates_columns_list, i)
     }
   }
-  return(dates_columns_list)
+  dates_columns_list
 }

@@ -5,8 +5,8 @@ main <- function(data = data, y = y) {
   source("modules/ui/sections/explore_imported_data.R")
   explore_imported_data <- explore_imported_data(data = data, y = y)
 
-  source("modules/ui/sections/select_parameters.R")
-  select_parameters <- select_parameters()
+  source("modules/ui/sections/train_models.R")
+  train_models <- train_models()
 
   source("modules/ui/sections/explore_results.R")
   explore_results <- explore_results()
@@ -15,7 +15,7 @@ main <- function(data = data, y = y) {
     width = "100%",
     summary$ui,
     explore_imported_data$section,
-    select_parameters$section,
+    train_models$section,
     explore_results$section
   )
 

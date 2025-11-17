@@ -9,6 +9,6 @@ gradient_boosting <- argonCard(
     sliderInput(label = "Number of trees", min = 1, max = 100, inputId = "n_trees_gbm", value = 50),
     sliderInput(label = "Sample rate", min = 0.1, max = 1, inputId = "sample_rate_gbm", value = 1),
     sliderInput(label = "Learn rate", min = 0.1, max = 1, inputId = "learn_rate_gbm", value = 0.1),
-    actionButton("run_gradient_boosting", "Run gradient boosting", style = "color:white; background-color:orange; padding:4px; font-size:120%", icon = icon("cogs", lib = "font-awesome"))
+    checkboxInput("select_gb", "Select model", value = FALSE)
   )
 )

@@ -1,4 +1,4 @@
-source_dir("modules/server/reactive/ml/utils")
+source("modules/server/reactive/sections/train_models/ml/utils/get_data_split_strategy.R", local = shared_env)
 
 prepare_data_for_models <- function(data, split) {
   split_function <- get_data_split_strategy()

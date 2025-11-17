@@ -1,5 +1,4 @@
-# Define a blacklist of models without feature importance
-importance_disabled <- c("Generalized linear regression", "Auto ML")
+importance_disabled <- c("Generalized linear regression")
 
 get_feature_importance <- function(model_obj) {
   # Return NULL if the model is in the blacklist
@@ -13,5 +12,5 @@ get_feature_importance <- function(model_obj) {
     select(variable, scaled_importance) %>%
     mutate(model = model_obj$name)
 
-  return(importance)
+  importance
 }
