@@ -1,8 +1,5 @@
 # Make glm parameters correspond to cursors and radiobuttons choices when user click on "Run generalized linear regression" button
 observeEvent(input$run_glm, {
-  train_1$date <- input$train_selector[1]
-  test_1$date <- input$test_selector[1]
-  test_2$date <- input$test_selector[2]
   model$train_variables <- input$input_variables
   v_grad$type_model <- NA
   v_neural$type_model <- NA

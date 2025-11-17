@@ -1,8 +1,5 @@
 # Make gradient boosting parameters correspond to cursors when user click on "Run gradient boosting model" button (and disable other models)
 observeEvent(input$run_gradient_boosting, {
-  train_1$date <- input$train_selector[1]
-  test_1$date <- input$test_selector[1]
-  test_2$date <- input$test_selector[2]
   model$train_variables <- input$input_variables
   v_grad$type_model <- "ml_gradient_boosted_trees"
   v_neural$type_model <- NA

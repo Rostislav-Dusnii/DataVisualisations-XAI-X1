@@ -3,7 +3,6 @@ output$model_performance_comparison <- renderDT({
   table_results <- predictions()[["table_results"]]
   req(!is.null(table_results))
   req(ncol(table_results) > ncol(data))
-  req(!is.null(input$checkbox_time_series))
 
   # Gather prediction columns into long format
   performance_table <- table_results %>%

@@ -1,8 +1,5 @@
 # Make random forest parameters correspond to cursors when user click on "Run random forest model" button (and disable other models)
 observeEvent(input$run_random_forest, {
-  train_1$date <- input$train_selector[1]
-  test_1$date <- input$test_selector[1]
-  test_2$date <- input$test_selector[2]
   model$train_variables <- input$input_variables
   v_grad$type_model <- NA
   v_neural$type_model <- NA

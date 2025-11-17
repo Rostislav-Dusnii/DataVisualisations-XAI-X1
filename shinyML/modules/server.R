@@ -7,28 +7,22 @@ create_shinyML_Server <- function(data, y) {
   y <- res$y
   x <- res$x
 
-  # Initialize all reactive variables
-  model <- reactiveValues()
-  train_1 <- reactiveValues()
-  test_1 <- reactiveValues()
-  test_2 <- reactiveValues()
-  v_neural <- reactiveValues(type_model = NA)
-  v_grad <- reactiveValues(type_model = NA)
-  v_glm <- reactiveValues(type_model = NA)
-  v_decision_tree <- reactiveValues(type_model = NA)
-  v_random <- reactiveValues(type_model = NA)
-  v_auto_ml <- reactiveValues(type_model = NA)
-  parameter <- reactiveValues()
-
-  # Initialize scalar values
-  scaled_importance <- NULL
-  variable <- NULL
 
   server <- function(session, input, output) {
     shared_env <- list2env(list(
       input = input,
       output = output
     ))
+
+    # Initialize all reactive variables
+    model <- reactiveValues()
+    v_neural <- reactiveValues(type_model = NA)
+    v_grad <- reactiveValues(type_model = NA)
+    v_glm <- reactiveValues(type_model = NA)
+    v_decision_tree <- reactiveValues(type_model = NA)
+    v_random <- reactiveValues(type_model = NA)
+    v_auto_ml <- reactiveValues(type_model = NA)
+    parameter <- reactiveValues()
 
     # Build vector resuming which Date or POSIXct columns are contained in input dataset
     dates_variable_list <- reactive({

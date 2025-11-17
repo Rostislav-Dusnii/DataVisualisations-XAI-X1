@@ -1,9 +1,5 @@
 # Make all parameters correspond to cursors and radiobuttons choices when user click on "Run tuned models!" button
 observeEvent(input$train_all, {
-  train_1$date <- input$train_selector[1]
-  test_1$date <- input$test_selector[1]
-  test_2$date <- input$test_selector[2]
-
   model$train_variables <- input$input_variables
 
   v_neural$type_model <- "ml_neural_network"
@@ -37,9 +33,8 @@ observeEvent(input$train_all, {
   parameter$rate_neural_net <- input$rate_neural_net
 })
 
-# When "Run all models!" button is clicked, send messageBox once all models have been trained
 observe({
-  if (ncol(predictions()[["table_results"]]) == ncol(data) + 4) {
+  if (ncol(predictions()$table_results) == ncol(data) + 4) {
     sendSweetAlert(
       session = session,
       title = "The four machine learning models have been trained !",

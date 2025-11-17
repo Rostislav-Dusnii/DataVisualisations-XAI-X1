@@ -1,9 +1,6 @@
 # Make neural network parameters correspond to cursors and radiobuttons choices when user click on "Run neural network regression" button (and disable other models)
 
 observeEvent(input$run_neural_network, {
-  train_1$date <- input$train_selector[1]
-  test_1$date <- input$test_selector[1]
-  test_2$date <- input$test_selector[2]
   model$train_variables <- input$input_variables
 
   v_neural$type_model <- "ml_neural_network"
