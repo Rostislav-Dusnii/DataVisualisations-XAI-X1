@@ -1,8 +1,8 @@
 # Define importance features table table visible on "Feature importance" tab
 output$feature_importance <- renderPlotly({
-  if (nrow(table_forecast()[["table_importance"]]) != 0) {
+  if (nrow(model_training_results()[["table_importance"]]) != 0) {
     ggplotly(
-      ggplot(data = table_forecast()[["table_importance"]]) +
+      ggplot(data = model_training_results()[["table_importance"]]) +
         geom_bar(aes(x = reorder(`variable`, scaled_importance), y = scaled_importance, fill = `model`), stat = "identity", width = 0.3) +
         facet_wrap(model ~ .) +
         coord_flip() +
@@ -16,7 +16,7 @@ output$feature_importance <- renderPlotly({
 
 # Message indicating that results are not available if no model has been running
 output$message_feature_importance <- renderUI({
-  if (ncol(table_forecast()[["results"]]) <= ncol(data)) {
+  if (ncol(predictions()[["table_results"]]) <= ncol(data)) {
     sendSweetAlert(
       session = session,
       title = "",

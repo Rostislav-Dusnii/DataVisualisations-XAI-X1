@@ -2,7 +2,7 @@
 output$table_of_results <- renderDT(
   {
     datatable(
-      table_forecast()[["results"]],
+      predictions()[["table_results"]],
       extensions = "Buttons", options = list(dom = "Bfrtip", buttons = c("csv", "excel", "pdf", "print"))
     )
   },

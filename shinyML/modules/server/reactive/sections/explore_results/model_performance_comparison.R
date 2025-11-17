@@ -1,16 +1,16 @@
 # Define performance table visible on "Compare models performances" tab
 output$model_performance_comparison <- renderDT({
-  req(ncol(table_forecast()[["results"]]) > ncol(data))
+  req(ncol(predictions()[["table_results"]]) > ncol(data))
   req(!is.null(input$checkbox_time_series))
 
   if (input$checkbox_time_series == TRUE) {
     req(!is.null(input$time_series_select_column))
 
-    performance_table <- eval(parse(text = paste0("table_forecast()[['results']] %>%
+    performance_table <- eval(parse(text = paste0("predictions()[['table_results']] %>%
                                                          gather(key = Model,value = Predicted_value,-", input$time_series_select_column, ",-y) %>%
                                                          as.data.table()")))
   } else if (input$checkbox_time_series == FALSE) {
-    performance_table <- table_forecast()[["results"]] %>%
+    performance_table <- predictions()[["table_results"]] %>%
       select(-c(setdiff(colnames(data), y))) %>%
       gather(key = Model, value = Predicted_value, -y) %>%
       as.data.table()
@@ -24,8 +24,8 @@ output$model_performance_comparison <- renderDT({
     )
 
 
-  if (nrow(table_forecast()[["traning_time"]]) != 0) {
-    performance_table <- performance_table %>% merge(., table_forecast()[["traning_time"]], by = "Model")
+  if (nrow(model_training_results()[["table_training_time"]]) != 0) {
+    performance_table <- performance_table %>% merge(., model_training_results()[["table_training_time"]], by = "Model")
   }
 
   datatable(
@@ -37,7 +37,7 @@ output$model_performance_comparison <- renderDT({
 
 # Message indicating that results are not available if no model has been running
 output$message_compare_models_performances <- renderUI({
-  if (ncol(table_forecast()[["results"]]) <= ncol(data)) {
+  if (ncol(predictions()[["table_results"]]) <= ncol(data)) {
     sendSweetAlert(
       session = session,
       title = "",

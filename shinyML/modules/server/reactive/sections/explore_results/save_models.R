@@ -1,6 +1,6 @@
 observeEvent(input$save_models, {
   # Ensure table_forecast() exists
-  req(table_forecast())
+  req(model_training_results())
 
   # Create folder to save models if it doesn't exist
   if (!dir.exists("saved_models")) dir.create("saved_models")

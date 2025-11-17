@@ -39,7 +39,7 @@ observeEvent(input$train_all, {
 
 # When "Run all models!" button is clicked, send messageBox once all models have been trained
 observe({
-  if (ncol(table_forecast()[["results"]]) == ncol(data) + 4) {
+  if (ncol(predictions()[["table_results"]]) == ncol(data) + 4) {
     sendSweetAlert(
       session = session,
       title = "The four machine learning models have been trained !",
