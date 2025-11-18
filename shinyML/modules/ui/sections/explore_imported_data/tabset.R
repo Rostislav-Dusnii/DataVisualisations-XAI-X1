@@ -1,7 +1,6 @@
-tabset <- function(data, y) {
+tabset <- function(data) {
   source_dir("modules/ui/sections/explore_imported_data/tabs")
-
-  explore_dataset <- explore_dataset(data, y)
+  explore_dataset <- explore_dataset(data)
 
   ui <- argonTabSet(
     width = 12,

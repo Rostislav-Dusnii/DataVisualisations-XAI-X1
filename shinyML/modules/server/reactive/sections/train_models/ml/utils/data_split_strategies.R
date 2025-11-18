@@ -1,6 +1,6 @@
 split_default_data <- function(data, split) {
   data_train <- data %>% sample_frac(split$train * 0.01)
-  data_test <- data %>% anti_join(data_train, by = colnames(data))
+  data_test <- data %>% anti_join(data_train, by = available_variables)
 
   list(
     data_train = data_train,

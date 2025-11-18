@@ -1,4 +1,4 @@
-explore_dataset <- function(data, y) {
+explore_dataset <- function(data) {
   ui <- argonTab(
     tabName = "Explore dataset",
     active = TRUE,
@@ -7,19 +7,14 @@ explore_dataset <- function(data, y) {
         width = 6,
         div(
           align = "center",
-          uiOutput("X_axis_explore_dataset")
+          uiOutput("x_axis_explore_dataset")
         )
       ),
       argonColumn(
         width = 6,
         div(
           align = "center",
-          selectInput(
-            inputId = "y_variable_input_curve",
-            label = "Y-axis variable",
-            choices = colnames(data),
-            selected = y
-          )
+          uiOutput("y_axis_explore_dataset")
         )
       )
     ),

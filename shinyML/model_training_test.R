@@ -1,4 +1,4 @@
-shinyML_regression <- function(data = data, y) {
+shinyML_regression <- function(data) {
   library(shiny)
   library(argonDash)
   library(argonR)
@@ -17,9 +17,9 @@ shinyML_regression <- function(data = data, y) {
   library(lubridate)
 
   source("modules/ui.R")
-  ui_parts <- import_UI(data = data, y = y)
+  ui_parts <- import_UI(data = data)
   source("modules/server.R")
-  server_part <- create_shinyML_Server(data = data, y = y)
+  server_part <- import_server(data = data)
 
   ## ---------------------------------------------------------------------------- LAUNCH APP  -----------------------------------
   # Assembly UI and SERVER sides inside shinyApp
@@ -35,4 +35,4 @@ shinyML_regression <- function(data = data, y) {
   )
 }
 
-shinyML_regression(data = iris, y = "Petal.Width")
+shinyML_regression(data = iris)

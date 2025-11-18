@@ -1,6 +1,7 @@
 output$pred_vs_real_chart <- renderDygraph({
   req(predictions()) # make sure predictions exist
 
+  y <- target$value
   table_results <- predictions()[["table_results"]]
   req(y %in% colnames(table_results)) # ensure y column exists
 

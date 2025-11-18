@@ -1,9 +1,9 @@
-main <- function(data = data, y = y) {
+main <- function(data = data) {
   source("modules/ui/sections/summary.R")
   summary <- summary()
 
   source("modules/ui/sections/explore_imported_data.R")
-  explore_imported_data <- explore_imported_data(data = data, y = y)
+  explore_imported_data <- explore_imported_data(data = data)
 
   source("modules/ui/sections/train_models.R")
   train_models <- train_models()

@@ -1,7 +1,6 @@
 explore_results <- function() {
   source("modules/ui/sections/explore_results/heading.R")
   source("modules/ui/sections/explore_results/main.R")
-  source("modules/ui/sections/explore_results/save_models_button.R")
 
   section <- argonDashHeader(
     gradient = TRUE,
@@ -9,8 +8,7 @@ explore_results <- function() {
     separator = FALSE,
     heading,
     br(),
-    main,
-    save_models_button
+    main
   )
 
   list(section = section)

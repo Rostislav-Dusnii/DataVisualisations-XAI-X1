@@ -1,7 +1,7 @@
-explore_imported_data <- function(data, y) {
+explore_imported_data <- function(data) {
   source("modules/ui/sections/explore_imported_data/heading.R")
   source("modules/ui/sections/explore_imported_data/main.R")
-  main <- main(data, y)
+  main <- main(data)
   source("modules/ui/sections/explore_imported_data/sidebar.R")
 
   section <- argonDashHeader(

@@ -10,13 +10,10 @@ train_test_data <- reactive({
 model_training_results <- eventReactive(input$train_models_btn, {
   prep_data <- train_test_data()
 
-  features <- input$input_variables
-  if (length(features) == 0) features <- character(0)
-
   train_results <- train_models(
     prep_data,
-    features,
-    y,
+    features$list,
+    target$value,
     models_to_train$params
   )
   train_results

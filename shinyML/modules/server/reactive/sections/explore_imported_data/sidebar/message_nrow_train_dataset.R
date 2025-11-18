@@ -7,6 +7,6 @@ output$message_nrow_train_dataset <- renderUI({
   argonBadge(text = HTML(paste0(
     "<big><big>Training dataset contains <b>",
     number_rows_datatest,
-    "</b> rows</big></big>"
+    "</b> samples</big></big>"
   )), status = "success")
 })

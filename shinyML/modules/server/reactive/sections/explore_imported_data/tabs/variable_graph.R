@@ -3,7 +3,7 @@ output$variable_graph <- renderPlotly({
   par("mar")
   par(mar = c(1, 1, 1, 1))
 
-  column_name <- colnames(data)[input$variables_class_input_rows_selected]
+  column_name <- available_variables[input$variables_class_input_rows_selected]
   points_serie <- eval(parse(text = paste0("data[,", column_name, "]")))
 
   if (input$input_var_graph_type == "Histogram") {

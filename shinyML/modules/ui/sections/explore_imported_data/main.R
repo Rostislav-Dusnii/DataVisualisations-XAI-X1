@@ -1,6 +1,6 @@
-main <- function(data, y) {
+main <- function(data) {
   source("modules/ui/sections/explore_imported_data/tabset.R")
-  tabset <- tabset(data, y)
+  tabset <- tabset(data)
 
   ui <- argonColumn(
     width = 9,
