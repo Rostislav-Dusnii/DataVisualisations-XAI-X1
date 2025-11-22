@@ -1,8 +1,9 @@
 source_dir("modules/ui/sections/train_models/cards")
 
 models_selection <- argonRow(
-  generalized_linear_regression,
-  random_forest,
-  neural_network,
-  gradient_boosting
+  glm_h2o,
+  rf_h2o,
+  nn_h2o,
+  gb_h2o,
+  ranger_mlr
 )

@@ -1,10 +1,11 @@
-neural_network <- argonCard(
+nn_h2o <- argonCard(
   width = 3,
   icon = icon("sliders"),
   status = "primary",
-  title = "Neural network",
+  title = "h2o framework",
   div(
     align = "center",
+    h1("Neural network"),
     argonRow(
       argonColumn(
         width = 6,
@@ -18,6 +19,6 @@ neural_network <- argonCard(
     textInput(label = "Hidden layers", inputId = "hidden_neural_net", value = "c(200,200)"),
     sliderInput(label = "Epochs", min = 10, max = 100, inputId = "epochs_neural_net", value = 10),
     sliderInput(label = "Learning rate", min = 0.001, max = 0.1, inputId = "rate_neural_net", value = 0.005),
-    checkboxInput("select_nn", "Select model", value = FALSE)
+    checkboxInput("select_nn_h2o", "Select model", value = FALSE)
   )
 )

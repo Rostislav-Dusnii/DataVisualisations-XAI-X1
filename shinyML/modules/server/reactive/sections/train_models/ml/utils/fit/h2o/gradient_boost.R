@@ -1,11 +1,12 @@
-fit_gradient_boost <- function(var_input_list, y, data_h2o_train, parameter) {
+fit_gradient_boost_h2o <- function(var_input_list, y, data_train, parameter) {
+  parameter$framework <- "h2o"
   model_display_name <- "Gradient boosted trees"
   t1 <- Sys.time()
 
   fit <- h2o.gbm(
     x = as.character(var_input_list),
     y = y,
-    training_frame = data_h2o_train,
+    training_frame = as.h2o(data_train),
     sample_rate = parameter$sample_rate_gbm,
     ntrees = parameter$n_trees_gbm,
     max_depth = parameter$max_depth_gbm,
@@ -16,9 +17,9 @@ fit_gradient_boost <- function(var_input_list, y, data_h2o_train, parameter) {
 
   t2 <- Sys.time()
   time_info <- data.frame(
-    `Training time` = paste0(round(t2 - t1, 1), " seconds"),
+    `Training time` = paste0(round(as.numeric(difftime(t2, t1, units = "secs")), 1), " seconds"),
     Model = model_display_name
   )
 
-  list(fit = fit, name = model_display_name, time = time_info)
+  list(fit = fit, name = model_display_name, time = time_info, params = parameter)
 }

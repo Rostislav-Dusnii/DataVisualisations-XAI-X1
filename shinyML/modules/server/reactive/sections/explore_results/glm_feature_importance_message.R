@@ -9,7 +9,7 @@ output$glm_feature_importance_message <- renderUI({
   }
 
   # GLM selected?
-  glm_selected <- "glm" %in% names(trained)
+  glm_selected <- "glm_h2o" %in% names(trained)
 
   if (glm_selected) {
     argonH1("Feature importance not available for generalized regression method", display = 4)

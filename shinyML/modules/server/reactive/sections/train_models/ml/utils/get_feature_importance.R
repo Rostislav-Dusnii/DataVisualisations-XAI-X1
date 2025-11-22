@@ -2,7 +2,8 @@ importance_disabled <- c("Generalized linear regression")
 
 get_feature_importance <- function(model_obj) {
   # Return NULL if the model is in the blacklist
-  if (model_obj$name %in% importance_disabled) {
+  if (model_obj$name %in% importance_disabled ||
+    model_obj$params$framework == "mlr") {
     return(NULL)
   }
 

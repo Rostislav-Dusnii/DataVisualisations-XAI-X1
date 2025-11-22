@@ -4,7 +4,8 @@ make_predictions <- function(trained_models, prep_data) {
   all_results <- list()
 
   for (model_obj in trained_models) {
-    all_results[[model_obj$name]] <- predict(model_obj, prep_data$data_h2o_test)
+    predict_func <- predict_function_mapping[[model_obj$params$framework]]
+    all_results[[model_obj$name]] <- predict_func(model_obj, prep_data$data_test)
   }
 
   all_results_unnamed <- unname(all_results)

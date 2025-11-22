@@ -14,9 +14,6 @@ summary <- function() {
           background_color = "lightblue"
         )
       ),
-      argonColumn(width = "20%", uiOutput("framework_used")),
-      argonColumn(width = "20%", uiOutput("framework_memory")),
-      argonColumn(width = "20%", uiOutput("framework_cpu")),
       argonColumn(width = "20%", uiOutput("dataset_infoCard"))
     )
   )

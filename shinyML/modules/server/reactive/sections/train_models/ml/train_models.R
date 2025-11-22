@@ -1,12 +1,12 @@
 source("modules/server/reactive/sections/train_models/ml/utils/fit_function_mapping.R", local = shared_env)
 source("modules/server/reactive/sections/train_models/ml/utils/get_feature_importance.R", local = shared_env)
 
-train_models <- function(prep_data, var_input_list, y, params) {
+train_models <- function(prep_data, var_input_list, y, models_to_train) {
   trained_models <- list()
   all_times <- list()
   all_importances <- list()
 
-  if (length(var_input_list) == 0 || length(params) == 0) {
+  if (length(var_input_list) == 0 || length(models_to_train) == 0) {
     return(
       list(
         trained_models = trained_models,
@@ -15,14 +15,14 @@ train_models <- function(prep_data, var_input_list, y, params) {
       )
     )
   }
-  selected_fit_functions <- fit_function_mapping[names(params)]
+  selected_fit_functions <- fit_function_mapping[names(models_to_train)]
 
 
   for (model_name in names(selected_fit_functions)) {
     fit_fn <- selected_fit_functions[[model_name]]
-    parameter <- params[[model_name]]
+    parameter <- models_to_train[[model_name]]
     # Fit the model
-    model_obj <- fit_fn(var_input_list, y, prep_data$data_h2o_train, parameter)
+    model_obj <- fit_fn(var_input_list, y, prep_data$data_train, parameter)
 
     # Store model, time, importance, and predictions
     trained_models[[model_name]] <- model_obj

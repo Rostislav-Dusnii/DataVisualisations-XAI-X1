@@ -1,10 +1,11 @@
-generalized_linear_regression <- argonCard(
+glm_h2o <- argonCard(
   width = 3,
   icon = icon("sliders"),
-  status = "success",
-  title = "Generalized linear regression",
+  status = "primary",
+  title = "h2o framework",
   div(
     align = "center",
+    h1("Generalized linear regression"),
     argonRow(
       argonColumn(
         width = 6,
@@ -34,6 +35,6 @@ generalized_linear_regression <- argonCard(
     sliderInput("reg_param_glm", "Lambda", min = 0, max = 10, value = 0),
     sliderInput("alpha_param_glm", "Alpha (0:Ridge <-> 1:Lasso)", min = 0, max = 1, value = 0.5),
     sliderInput("max_iter_glm", "Maximum iterations", min = 50, max = 300, value = 100),
-    checkboxInput("select_glm", "Select model", value = FALSE)
+    checkboxInput("select_glm_h2o", "Select model", value = FALSE)
   )
 )
