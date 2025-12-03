@@ -1,5 +1,5 @@
 summary <- function() {
-  ui <- argonDashHeader(
+  header_ui <- argonDashHeader(
     gradient = TRUE,
     color = "danger",
     separator = FALSE,
@@ -17,5 +17,6 @@ summary <- function() {
       argonColumn(width = "20%", uiOutput("dataset_infoCard"))
     )
   )
-  list(ui = ui)
+
+  list(ui = header_ui)
 }

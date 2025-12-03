@@ -5,5 +5,5 @@ import_UI <- function(data) {
   main <- main(data)
   source("modules/ui/footer.R")
 
-  list(footer = footer, main = main)
+  list(footer = footer, main = main$ui, header = main$header)
 }

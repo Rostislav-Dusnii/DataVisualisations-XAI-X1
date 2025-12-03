@@ -6,7 +6,7 @@ import_server <- function(data, y) {
   data <- data_process_result$data
   available_variables <- data_process_result$available_variables
 
-  server <- function(session, input, output) {
+  server <- function(input, output, session) {
     shared_env <- list2env(list(
       input = input,
       output = output,

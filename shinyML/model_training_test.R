@@ -31,10 +31,13 @@ shinyML_regression <- function(data) {
       useShinyjs(),
       title = "ML_training",
       description = "Train your own model",
-      header = ui_parts$main,
+      header = ui_parts$header,
+      body = argonDashBody(ui_parts$main),
       footer = ui_parts$footer
     ),
-    server = server_part$server
+    server = function(input, output, session) {
+      server_part$server(input, output, session)
+    }
   )
 }
 

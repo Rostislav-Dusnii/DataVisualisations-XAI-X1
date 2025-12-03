@@ -11,13 +11,39 @@ main <- function(data = data) {
   source("modules/ui/sections/explore_results.R")
   explore_results <- explore_results()
 
-  sections <- argonColumn(
-    width = "100%",
-    summary$ui,
-    explore_imported_data$section,
-    train_models$section,
-    explore_results$section
-  )
+  # page 2 content
+  source("modules/ui/sections/page2.R")
+  page2_content_module <- page2()
 
-  list(ui = sections)
+  # page 3 content
+  source("modules/ui/sections/page3.R")
+  page3_content_module <- page3()
+
+  # header
+  header <- summary$ui
+
+  # create tabset with all pages
+  all_pages <- tabsetPanel(
+      id = "main_tabs",
+      type = "tabs",
+      tabPanel(
+        "Page 1",
+        value = "page1",
+        explore_imported_data$section,
+        train_models$section,
+        explore_results$section
+      ),
+      tabPanel(
+        "Page 2",
+        value = "page2",
+        page2_content_module$section
+      ),
+      tabPanel(
+        "Page 3",
+        value = "page3",
+        page3_content_module$section
+      )
+    )
+
+  list(ui = all_pages, header = header)
 }
