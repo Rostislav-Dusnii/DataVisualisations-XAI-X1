@@ -1,11 +1,16 @@
 page3 <- function() {
-  section <- tags$div(
-    style = "padding: 40px;",
-    h1("Page 3", style = "color: #11cdef;"),
-    h3("Welcome to Page 3"),
-    p("Blabla"),
-    tags$hr(),
-
+  section <- argonDash::argonCard(
+    title = "Ask the AI about your model",
+    status = "primary",
+    icon = icon("comments"),
+    width = 12,
+    argonDash::argonRow(
+      column(
+        width = 12,
+        tags$p("Pose questions about the trained model and its explanations."),
+        shinychat::chat_ui("chat", height = "600px")
+      )
+    )
   )
 
   list(section = section)

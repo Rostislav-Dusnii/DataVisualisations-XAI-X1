@@ -7,7 +7,7 @@ mod_page3_ui <- function(id) {
   )
 }
 
-mod_page3_server <- function(id, model_context = reactive(NULL)) {
+mod_page3_server <- function(id, model_context = reactive(NULL), arena_payload = reactive(NULL)) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -18,6 +18,7 @@ mod_page3_server <- function(id, model_context = reactive(NULL)) {
 
       # get context from page 2
       context <- model_context()
+      xai <- arena_payload()
 
       # context string for AI
       if (!is.null(context)) {
@@ -31,16 +32,29 @@ mod_page3_server <- function(id, model_context = reactive(NULL)) {
           "- Training samples: ", context$n_train, "\n",
           "- Test samples: ", context$n_test, "\n",
           "- The visualization shows explanations for ", context$observations_explained,
-          " apartment predictions.\n\n",
-          "User question: ", user_question
+          " apartment predictions.\n"
         )
       } else {
         context_text <- paste0(
           "Note: Model context not yet available. ",
-          "Please visit Page 2 first to see the model visualization.\n\n",
-          "User question: ", user_question
+          "Please visit Page 2 first to see the model visualization.\n"
         )
       }
+
+      arena_text <- if (!is.null(xai) && !is.null(xai$arena_json)) {
+        paste0(
+          "Arena/ModelStudio payload detected for model: ", xai$model_label, ". ",
+          "Contains XAI panels (feature importance, ceteris paribus, etc.)."
+        )
+      } else {
+        "Arena/ModelStudio payload not yet available."
+      }
+
+      prompt_text <- paste0(
+        context_text,
+        "\n", arena_text, "\n\n",
+        "User question: ", user_question
+      )
 
       # response
       tryCatch({
@@ -50,7 +64,7 @@ mod_page3_server <- function(id, model_context = reactive(NULL)) {
             "Use the provided model information to answer questions. ",
             "Be clear, accurate, and helpful. If you don't have specific information, say so."
           ),
-          user_prompt = context_text,
+          user_prompt = prompt_text,
           model = "gpt-4o-mini",
           temperature = 0.3
         )

@@ -18,11 +18,17 @@ shinyML_regression <- function(data) {
   library(mlr)
   library(mlr3)
   library(mlr3learners)
+  library(DALEX)
+  library(modelStudio)
+  library(shinychat)
+  library(httr2)
 
   source("modules/ui.R")
   ui_parts <- import_UI(data = data)
   source("modules/server.R")
   server_part <- import_server(data = data)
+  # make exported reactives available to outer apps if needed
+  assign("shinyML_exports", server_part$exports, envir = .GlobalEnv)
 
   ## ---------------------------------------------------------------------------- LAUNCH APP  -----------------------------------
   # Assembly UI and SERVER sides inside shinyApp
