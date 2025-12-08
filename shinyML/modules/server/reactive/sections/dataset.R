@@ -1,7 +1,7 @@
 # Build vector resuming which Date or POSIXct columns are contained in input dataset
 dates_variable_list <- reactive({
-    req(data) # ensure data is available
-    get_date_columns(data)
+    req(current_dataset$data) # ensure data is available
+    get_date_columns(current_dataset$data)
 })
 
 current_dataset <- reactiveValues(
