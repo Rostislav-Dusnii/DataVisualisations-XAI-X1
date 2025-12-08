@@ -19,6 +19,7 @@ shinyML_regression <- function(data) {
   library(mlr3)
   library(mlr3learners)
   library(datamods)
+  library(stringr)
 
   source("modules/ui.R")
   ui_parts <- import_UI(data = data)
