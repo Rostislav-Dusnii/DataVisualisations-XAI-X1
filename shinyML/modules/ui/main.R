@@ -24,23 +24,18 @@ main <- function(data = data) {
 
   all_pages <- tags$div(
     id = "main_tabs",
-    tags$div(
-      id = "page1",
-      class = "tab-pane active",
+    conditionalPanel(
+      condition = "input.current_page == 'page1' || typeof input.current_page === 'undefined'",
       explore_imported_data$section,
       train_models$section,
       explore_results$section
     ),
-    tags$div(
-      id = "page2",
-      class = "tab-pane",
-      style = "display: none;",
+    conditionalPanel(
+      condition = "input.current_page == 'page2'",
       page2_content_module$section
     ),
-    tags$div(
-      id = "page3",
-      class = "tab-pane",
-      style = "display: none;",
+    conditionalPanel(
+      condition = "input.current_page == 'page3'",
       page3_content_module$section
     )
   )

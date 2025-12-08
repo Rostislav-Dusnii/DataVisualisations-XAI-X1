@@ -105,8 +105,11 @@ custom_header <- function() {
       });
 
       Shiny.addCustomMessageHandler('switch_page', function(page) {
-        $('#main_tabs .tab-pane').hide().removeClass('active');
-        $('#' + page).show().addClass('active');
+        Shiny.setInputValue('current_page', page);
+
+        setTimeout(function() {
+          $(window).trigger('resize');
+        }, 100);
       });
     "))
   )

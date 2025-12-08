@@ -7,7 +7,11 @@ train_test_data <- reactive({
   prepare_data_for_models(data, split)
 })
 
-all_trained_models <- reactiveVal(list())
+all_training_results <- reactiveVal(list(
+  trained_models = list(),
+  table_training_time = data.table(),
+  table_importance = data.table()
+))
 
 observeEvent(input$train_models_btn, {
   prep_data <- train_test_data()
@@ -19,15 +23,21 @@ observeEvent(input$train_models_btn, {
     models_to_train$params
   )
 
-  current_models <- all_trained_models()
-  new_models <- train_results$trained_models
+  current_results <- all_training_results()
+  combined_models <- c(current_results$trained_models, train_results$trained_models)
+  combined_times <- rbind(current_results$table_training_time, train_results$table_training_time)
+  combined_importance <- rbind(current_results$table_importance, train_results$table_importance)
 
-  combined_models <- c(current_models, new_models)
-  all_trained_models(combined_models)
+  # Update the stored results
+  all_training_results(list(
+    trained_models = combined_models,
+    table_training_time = combined_times,
+    table_importance = combined_importance
+  ))
 })
 
 model_training_results <- reactive({
-  list(trained_models = all_trained_models())
+  all_training_results()
 })
 
 predictions <- reactive({
