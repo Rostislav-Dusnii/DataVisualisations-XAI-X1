@@ -6,6 +6,8 @@ process_input_data <- function(data) {
     stop("Input dataset must not exceed one million rows")
   }
 
+  colnames(data) <- make.names(colnames(data), unique = TRUE)
+
   available_variables <- colnames(data)
 
   list(

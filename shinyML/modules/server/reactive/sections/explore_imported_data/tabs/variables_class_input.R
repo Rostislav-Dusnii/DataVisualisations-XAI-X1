@@ -6,8 +6,8 @@ output$variables_class_input <- renderDT({
     table_classes <- rbind(
       table_classes,
       data.frame(
-        Variable = available_variables[i],
-        Class = class(eval(parse(text = paste0("data$", available_variables[i]))))
+        Variable = current_dataset$available_variables[i],
+        Class = class(eval(parse(text = paste0("data$", current_dataset$available_variables[i]))))
       )
     )
   }

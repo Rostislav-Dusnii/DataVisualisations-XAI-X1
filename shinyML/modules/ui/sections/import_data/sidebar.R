@@ -1,7 +1,7 @@
 sidebar <- argonColumn(
   width = 3,
   argonCard(
-    width = 12, src = NULL, hover_lift = TRUE, shadow = TRUE,
+    width = 12, src = NULL, shadow = TRUE,
     div(
       align = "center",
       uiOutput("features_selection"),

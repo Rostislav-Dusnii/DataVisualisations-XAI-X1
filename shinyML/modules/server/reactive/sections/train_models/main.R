@@ -4,7 +4,7 @@ source_dir("modules/server/reactive/sections/train_models/ml", local = shared_en
 
 split <- list(train = 70)
 train_test_data <- reactive({
-  prepare_data_for_models(data, split)
+  prepare_data_for_models(current_dataset$data, split)
 })
 
 model_training_results <- eventReactive(input$train_models_btn, {

@@ -1,6 +1,6 @@
 available_features <- reactive({
   target_col <- target$value
-  setdiff(available_variables, c(dates_variable_list(), target_col))
+  setdiff(current_dataset$available_variables, c(dates_variable_list(), target_col))
 })
 
 output$features_selection <- renderUI({

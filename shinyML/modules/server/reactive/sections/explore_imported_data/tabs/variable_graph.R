@@ -3,13 +3,13 @@ output$variable_graph <- renderPlotly({
   par("mar")
   par(mar = c(1, 1, 1, 1))
 
-  column_name <- available_variables[input$variables_class_input_rows_selected]
+  column_name <- current_dataset$available_variables[input$variables_class_input_rows_selected]
   points_serie <- eval(parse(text = paste0("data[,", column_name, "]")))
 
   if (input$input_var_graph_type == "Histogram") {
     req(is.numeric(points_serie))
     ggplotly(
-      ggplot(data = data, aes(x = eval(parse(text = column_name)), fill = column_name)) +
+      ggplot(data = current_dataset$data, aes(x = eval(parse(text = column_name)), fill = column_name)) +
         xlab(column_name) +
         geom_histogram(aes(y = ..density..), colour = "black", fill = "#FCADB3", bins = 30) +
         geom_density(alpha = 0.4, size = 1.3) +

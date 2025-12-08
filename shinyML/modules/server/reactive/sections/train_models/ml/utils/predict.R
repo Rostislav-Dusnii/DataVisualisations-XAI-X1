@@ -9,8 +9,6 @@ predict_h2o <- function(model_obj, data_test) {
 
 predict_mlr <- function(model_obj, data_test) {
   preds <- predict(model_obj$fit, newdata = data_test)
-  print(preds)
-  print(preds$data)
   table_pred <- preds$data %>% 
     as.data.table() %>%
     mutate(response = round(response, 3)) %>%

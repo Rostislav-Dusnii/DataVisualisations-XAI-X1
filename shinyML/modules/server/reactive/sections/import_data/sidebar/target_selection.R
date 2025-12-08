@@ -1,6 +1,6 @@
 # Define explanatory variables list
 available_targets <- reactive({
-  setdiff(available_variables, dates_variable_list())
+  setdiff(current_dataset$available_variables, dates_variable_list())
 })
 
 output$target_selection <- renderUI({
