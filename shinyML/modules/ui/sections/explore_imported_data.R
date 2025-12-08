@@ -5,7 +5,7 @@ explore_imported_data <- function(data) {
   source("modules/ui/sections/explore_imported_data/sidebar.R")
 
   section <- argonDashHeader(
-    gradient = FALSE,
+    gradient = TRUE,
     color = "info",
     separator = FALSE,
     heading,

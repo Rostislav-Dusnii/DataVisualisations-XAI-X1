@@ -7,7 +7,9 @@ train_test_data <- reactive({
   prepare_data_for_models(data, split)
 })
 
-model_training_results <- eventReactive(input$train_models_btn, {
+all_trained_models <- reactiveVal(list())
+
+observeEvent(input$train_models_btn, {
   prep_data <- train_test_data()
 
   train_results <- train_models(
@@ -16,7 +18,16 @@ model_training_results <- eventReactive(input$train_models_btn, {
     target$value,
     models_to_train$params
   )
-  train_results
+
+  current_models <- all_trained_models()
+  new_models <- train_results$trained_models
+
+  combined_models <- c(current_models, new_models)
+  all_trained_models(combined_models)
+})
+
+model_training_results <- reactive({
+  list(trained_models = all_trained_models())
 })
 
 predictions <- reactive({
@@ -29,16 +40,20 @@ predictions <- reactive({
   list(table_results = table_results)
 })
 
-# pick an active model (first trained by default)
 active_model <- reactive({
   tm <- model_training_results()[["trained_models"]]
   if (length(tm) == 0) {
     return(NULL)
   }
+
+  selected_idx <- input$selected_model
+  if (!is.null(selected_idx) && selected_idx >= 1 && selected_idx <= length(tm)) {
+    return(tm[[as.integer(selected_idx)]])
+  }
+
   tm[[1]]
 })
 
-# build DALEX explainer and ModelStudio payload for the active model
 xai_payload <- reactive({
   model_obj <- active_model()
   req(model_obj)
@@ -51,13 +66,16 @@ xai_payload <- reactive({
   y_test <- data_test[[y_col]]
 
   predict_fun <- NULL
-  if (identical(model_obj$params$framework, "h2o")) {
-    predict_fun <- function(m, newdata) {
-      as.vector(h2o.predict(m, as.h2o(newdata))$predict)
-    }
-  } else if (identical(model_obj$params$framework, "mlr")) {
-    predict_fun <- function(m, newdata) {
-      predict(m, newdata = newdata)$data$response
+  framework <- model_obj$params$framework
+  if (!is.null(framework) && length(framework) > 0) {
+    if (framework == "h2o") {
+      predict_fun <- function(m, newdata) {
+        as.vector(h2o.predict(m, as.h2o(newdata))$predict)
+      }
+    } else if (framework == "mlr") {
+      predict_fun <- function(m, newdata) {
+        predict(m, newdata = newdata)$data$response
+      }
     }
   }
 
@@ -66,15 +84,15 @@ xai_payload <- reactive({
     data = x_test,
     y = y_test,
     label = model_obj$name,
-    predict_function = predict_fun
+    predict_function = predict_fun,
+    verbose = FALSE
   )
 
   new_obs <- head(data_test, 2)
-  ms <- modelStudio::modelStudio(explainer, new_obs)
 
+  # Return explainer for arena.drwhy integration
   list(
     model_label = model_obj$name,
-    arena_json = ms$x,
     explainer = explainer,
     new_obs = new_obs,
     target = y_col

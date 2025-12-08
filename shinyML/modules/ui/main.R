@@ -22,28 +22,28 @@ main <- function(data = data) {
   # header
   header <- summary$ui
 
-  # create tabset with all pages
-  all_pages <- tabsetPanel(
-      id = "main_tabs",
-      type = "tabs",
-      tabPanel(
-        "Page 1",
-        value = "page1",
-        explore_imported_data$section,
-        train_models$section,
-        explore_results$section
-      ),
-      tabPanel(
-        "Page 2",
-        value = "page2",
-        page2_content_module$section
-      ),
-      tabPanel(
-        "Page 3",
-        value = "page3",
-        page3_content_module$section
-      )
+  all_pages <- tags$div(
+    id = "main_tabs",
+    tags$div(
+      id = "page1",
+      class = "tab-pane active",
+      explore_imported_data$section,
+      train_models$section,
+      explore_results$section
+    ),
+    tags$div(
+      id = "page2",
+      class = "tab-pane",
+      style = "display: none;",
+      page2_content_module$section
+    ),
+    tags$div(
+      id = "page3",
+      class = "tab-pane",
+      style = "display: none;",
+      page3_content_module$section
     )
+  )
 
   list(ui = all_pages, header = header)
 }

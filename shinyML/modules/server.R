@@ -11,6 +11,7 @@ import_server <- function(data, y) {
     shared_env <- list2env(list(
       input = input,
       output = output,
+      session = session,
       data = data,
       available_variables = available_variables
     ))

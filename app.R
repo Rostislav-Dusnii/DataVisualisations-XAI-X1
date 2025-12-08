@@ -3,48 +3,103 @@ library(bslib)
 library(dotenv)
 library(httr2)
 library(shinychat)
-library(r2d3)
+library(argonDash)
+library(argonR)
+library(dygraphs)
+library(data.table)
+library(ggplot2)
+library(shinycssloaders)
+library(sparklyr)
+library(dplyr)
+library(tidyr)
+library(DT)
+library(h2o)
+library(plotly)
+library(shinyWidgets)
+library(shinyjs)
+library(lubridate)
 library(mlr)
-library(DALEXtra)
+library(mlr3)
+library(mlr3learners)
+library(DALEX)
 library(modelStudio)
-
-dotenv::load_dot_env(".env")
-if (!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
-  warning("OPENAI_API_KEY not found in .env file. Page 3 chatbot will not work.")
-}
-
 source("R/xai_helpers.R")
-source("R/mod_page1.R")
-source("R/mod_page2.R")
-source("R/mod_page3.R")
+source("R/custom_header.R")
+source("shinyML/modules/helpers.R")
+source_dir("shinyML/modules/server")
 
-ui <- page_navbar(
-  theme = bs_theme(bootswatch = "flatly"),
-  title = "DeckCheck",
-
-  nav_panel(
-    "1. Train Models",
-    mod_page1_ui("page1")
+ui <- argonDashPage(
+  useShinyjs(),
+  title = "ML Training & XAI",
+  description = "Train your own model with XAI",
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "css/custom.css")
   ),
-
-  nav_panel(
-    "2. Visualizations",
-    mod_page2_ui("page2")
-  ),
-
-  nav_panel(
-    "3. Ask AI",
-    mod_page3_ui("page3")
-  )
+  header = custom_header(),
+  body = argonDashBody(uiOutput("shinyML_body")),
+  footer = uiOutput("shinyML_footer")
 )
 
 server <- function(input, output, session) {
-  trained_model <- mod_page1_server("page1")
+  h2o::h2o.init()
 
-  model_context <- mod_page2_server("page2")
 
-  mod_page3_server("page3", model_context = model_context)
+  data <- iris
+  data_process_result <- process_input_data(data)
+  data <- data_process_result$data
+  available_variables <- data_process_result$available_variables
+
+  shared_env <- list2env(list(
+    input = input,
+    output = output,
+    session = session,
+    data = data,
+    available_variables = available_variables
+  ))
+
+  dates_variable_list <- reactive({
+    req(data)
+    get_date_columns(data)
+  })
+
+  target <- reactiveValues(value = NA)
+  features <- reactiveValues(list = list())
+
+  old_wd <- getwd()
+  setwd("shinyML")
+  source_dir("modules/server/reactive/sections", local = shared_env)
+  source_dir("modules/server/reactive/sections/explore_imported_data", local = shared_env, recursive = TRUE)
+  source_dir("modules/server/reactive/sections/explore_results", local = shared_env)
+  source_dir("modules/server/reactive/sections/train_models", local = shared_env)
+  setwd(old_wd)
+
+  ui_parts_cached <- NULL
+
+  get_ui_parts <- function() {
+    if (is.null(ui_parts_cached)) {
+      old_wd <- getwd()
+      setwd("shinyML")
+      on.exit(setwd(old_wd))
+
+      source("modules/ui.R")
+      ui_parts_cached <<- import_UI(data = data)
+    }
+    ui_parts_cached
+  }
+
+  observeEvent(input$navbar_switch, {
+    session$sendCustomMessage("switch_page", input$navbar_switch)
+  })
+
+  output$shinyML_body <- renderUI({
+    ui_parts <- get_ui_parts()
+    ui_parts$main
+  })
+
+  output$shinyML_footer <- renderUI({
+    ui_parts <- get_ui_parts()
+    ui_parts$footer
+  })
 }
-
 
 shinyApp(ui = ui, server = server)
