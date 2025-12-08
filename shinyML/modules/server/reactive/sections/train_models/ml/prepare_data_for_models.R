@@ -7,13 +7,9 @@ prepare_data_for_models <- function(data, split) {
 
   data_train <- split_output$data_train
   data_test <- split_output$data_test
-  data_h2o_train <- split_output$data_h2o_train
-  data_h2o_test <- split_output$data_h2o_test
 
   list(
     data_train = data_train,
-    data_test = data_test,
-    data_h2o_train = data_h2o_train,
-    data_h2o_test = data_h2o_test
+    data_test = data_test
   )
 }

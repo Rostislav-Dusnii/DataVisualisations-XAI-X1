@@ -16,4 +16,5 @@ output$target_selection <- renderUI({
 
 observeEvent(input$target_selection, {
   target$value <- input$target_selection
+  target$results_table_value <- paste(target$value, " - target", sep = "")
 })

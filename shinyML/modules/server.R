@@ -20,7 +20,7 @@ import_server <- function(data, y) {
       get_date_columns(data)
     })
 
-    target <- reactiveValues(value = NA)
+    target <- reactiveValues(value = NA, results_table_value = NA)
     features <- reactiveValues(list = list())
 
     source_dir("modules/server/reactive/sections", local = shared_env)

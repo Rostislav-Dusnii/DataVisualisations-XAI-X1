@@ -24,7 +24,8 @@ predictions <- reactive({
   trained_models <- model_training_results()$trained_models
   table_results <- make_predictions(
     trained_models,
-    prep_data
+    prep_data,
+    target
   )
   list(table_results = table_results)
 })
