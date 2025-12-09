@@ -1,5 +1,5 @@
 table_results <- argonTab(
   tabName = "Table of results",
-  active = FALSE,
+  active = TRUE,
   withSpinner(DTOutput("table_of_results"))
 )

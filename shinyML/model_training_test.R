@@ -20,6 +20,7 @@ shinyML_regression <- function(data) {
   library(mlr3learners)
   library(datamods)
   library(stringr)
+  library(shinyFiles)
 
   source("modules/ui.R")
   ui_parts <- import_UI(data = data)
@@ -31,6 +32,17 @@ shinyML_regression <- function(data) {
   app <- shiny::shinyApp(
     ui = argonDashPage(
       useShinyjs(),
+
+      # ---- FIX ARGON MODAL PROBLEM ----
+      tags$head(
+        tags$style(HTML("
+          #dir-modal.fade:not(.show) {
+            opacity: 100 !important;
+          }
+        "))
+      ),
+      # ---------------------------------
+
       title = "ML_training",
       description = "Train your own model",
       header = ui_parts$header,

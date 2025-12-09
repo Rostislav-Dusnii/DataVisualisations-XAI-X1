@@ -1,1 +1,7 @@
-.card { margin-bottom: 1rem; }
+.card {
+    margin-bottom: 1rem;
+}
+
+.fade:not(.show) {
+    opacity: 0
+}

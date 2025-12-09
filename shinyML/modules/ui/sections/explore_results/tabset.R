@@ -13,7 +13,6 @@ tabset <- argonTabSet(
     argonIcon("calendar-grid-58"),
     argonIcon("calendar-grid-58")
   ),
-  result_charts,
   compare_performance,
   feature_importance,
   table_results

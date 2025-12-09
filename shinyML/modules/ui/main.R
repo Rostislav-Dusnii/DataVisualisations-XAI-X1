@@ -3,6 +3,7 @@ source("modules/ui/sections/import_data.R")
 source("modules/ui/sections/explore_imported_data.R")
 source("modules/ui/sections/train_models.R")
 source("modules/ui/sections/explore_results.R")
+source("modules/ui/sections/save_models.R")
 
 main <- argonColumn(
   width = "100%",
@@ -10,5 +11,6 @@ main <- argonColumn(
   import_data,
   explore_imported_data,
   train_models,
-  explore_results
+  explore_results,
+  save_models
 )
