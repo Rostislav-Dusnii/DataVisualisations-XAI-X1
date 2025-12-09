@@ -1,8 +1,8 @@
 explore_imported_data <- function(data) {
   source("modules/ui/sections/explore_imported_data/heading.R")
   source("modules/ui/sections/explore_imported_data/main.R")
-  main <- main(data)
-  source("modules/ui/sections/explore_imported_data/sidebar.R")
+  main_ui <- main
+  source("modules/ui/sections/import_data/sidebar.R")
 
   section <- argonDashHeader(
     gradient = TRUE,
@@ -11,7 +11,7 @@ explore_imported_data <- function(data) {
     heading,
     br(),
     argonRow(
-      main$ui,
+      main_ui,
       sidebar
     )
   )

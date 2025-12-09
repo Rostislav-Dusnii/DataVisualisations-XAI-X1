@@ -1,16 +1,17 @@
-# Define input data summary with class of each variable
 output$variables_class_input <- renderDT({
-  table_classes <- data.table()
+  req(current_dataset$data, current_dataset$available_variables)
 
-  for (i in 1:ncol(data)) {
-    table_classes <- rbind(
-      table_classes,
-      data.frame(
-        Variable = available_variables[i],
-        Class = class(eval(parse(text = paste0("data$", available_variables[i]))))
-      )
-    )
-  }
+  table_classes <- data.table(
+    Variable = current_dataset$available_variables,
+    Class = sapply(current_dataset$available_variables, function(col) {
+      cls <- class(current_dataset$data[[col]])
+      paste(cls, collapse = ", ")
+    })
+  )
 
-  datatable(table_classes, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), selection = list(mode = "single", selected = c(1)))
+  datatable(
+    table_classes,
+    options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE),
+    selection = list(mode = "single", selected = c(1))
+  )
 })

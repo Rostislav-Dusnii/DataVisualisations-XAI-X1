@@ -17,7 +17,6 @@ variables_summary <- argonTab(
           selected = "Histogram", inline = TRUE
         )
       ),
-      div(align = "center", uiOutput("message_autocorrelation")),
       withSpinner(plotlyOutput("variable_graph", height = "100%", width = "100%"))
     )
   )

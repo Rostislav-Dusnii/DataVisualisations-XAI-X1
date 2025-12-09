@@ -5,7 +5,7 @@ main <- argonRow(
     width = 12,
     title = "Predictions on test period",
     src = NULL,
-    hover_lift = TRUE,
+   
     shadow = TRUE,
     icon = icon("cogs"),
     status = "danger",

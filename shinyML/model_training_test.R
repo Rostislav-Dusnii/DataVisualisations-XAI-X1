@@ -9,6 +9,7 @@ shinyML_regression <- function(data) {
   library(sparklyr)
   library(dplyr) # or use dplyr::function_name for individual functions
   library(tidyr)
+  library(stringr)
   library(DT)
   library(h2o)
   library(plotly)
@@ -18,10 +19,7 @@ shinyML_regression <- function(data) {
   library(mlr)
   library(mlr3)
   library(mlr3learners)
-  library(DALEX)
-  library(modelStudio)
-  library(shinychat)
-  library(httr2)
+  library(datamods)
 
   source("modules/ui.R")
   ui_parts <- import_UI(data = data)

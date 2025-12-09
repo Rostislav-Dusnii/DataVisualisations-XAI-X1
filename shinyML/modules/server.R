@@ -1,4 +1,4 @@
-import_server <- function(data, y) {
+import_server <- function(data) {
   source("modules/helpers.R")
   source_dir("modules/server")
 
@@ -16,19 +16,12 @@ import_server <- function(data, y) {
       available_variables = available_variables
     ))
 
-    # Build vector resuming which Date or POSIXct columns are contained in input dataset
-    dates_variable_list <- reactive({
-      req(data) # ensure data is available
-      get_date_columns(data)
-    })
-
-    target <- reactiveValues(value = NA)
-    features <- reactiveValues(list = list())
-
-    source_dir("modules/server/reactive/sections", local = shared_env)
+    source("modules/server/reactive/sections/dataset.R", local = shared_env)
+    source("modules/server/reactive/sections/summary.R", local = shared_env)
+    source_dir("modules/server/reactive/sections/train_models", local = shared_env)
+    source_dir("modules/server/reactive/sections/import_data", local = shared_env, recursive = TRUE)
     source_dir("modules/server/reactive/sections/explore_imported_data", local = shared_env, recursive = TRUE)
     source_dir("modules/server/reactive/sections/explore_results", local = shared_env)
-    source_dir("modules/server/reactive/sections/train_models", local = shared_env)
 
     # expose handles so outer app can reuse XAI payloads and context
     exports$xai_payload <- shared_env$xai_payload

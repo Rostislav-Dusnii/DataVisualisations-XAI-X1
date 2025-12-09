@@ -4,10 +4,10 @@ output$model_performance_comparison <- renderDT({
   req(!is.null(table_results))
   req(ncol(table_results) > ncol(data))
 
-  y <- target$value
+  y <- target$results_table_value
   # Gather prediction columns into long format
   performance_table <- table_results %>%
-    select(-c(setdiff(colnames(data), y))) %>%
+    select(-features$list) %>%
     gather(key = Model, value = Predicted_value, -all_of(y)) %>%
     as.data.table()
 

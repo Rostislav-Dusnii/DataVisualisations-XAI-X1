@@ -7,6 +7,7 @@ train_test_data <- reactive({
   prepare_data_for_models(data, split)
 })
 
+# Store all training results (models, times, importances) across multiple runs
 all_training_results <- reactiveVal(list(
   trained_models = list(),
   table_training_time = data.table(),
@@ -23,9 +24,16 @@ observeEvent(input$train_models_btn, {
     models_to_train$params
   )
 
+  # Get current accumulated results
   current_results <- all_training_results()
+
+  # Combine new models with existing ones
   combined_models <- c(current_results$trained_models, train_results$trained_models)
+
+  # Combine training times
   combined_times <- rbind(current_results$table_training_time, train_results$table_training_time)
+
+  # Combine feature importances
   combined_importance <- rbind(current_results$table_importance, train_results$table_importance)
 
   # Update the stored results
@@ -45,7 +53,8 @@ predictions <- reactive({
   trained_models <- model_training_results()$trained_models
   table_results <- make_predictions(
     trained_models,
-    prep_data
+    prep_data,
+    target
   )
   list(table_results = table_results)
 })

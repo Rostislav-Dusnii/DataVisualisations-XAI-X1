@@ -9,12 +9,11 @@ predict_h2o <- function(model_obj, data_test) {
 
 predict_mlr <- function(model_obj, data_test) {
   preds <- predict(model_obj$fit, newdata = data_test)
-  table_pred <- data.table(
-    setNames(
-      list(round(preds$data$response, 3)),
-      model_obj$name
-    )
-  )
+  table_pred <- preds$data %>% 
+    as.data.table() %>%
+    mutate(response = round(response, 3)) %>%
+    select(-truth) %>%
+    rename(!!model_obj$name := response)
 
   table_pred
 }

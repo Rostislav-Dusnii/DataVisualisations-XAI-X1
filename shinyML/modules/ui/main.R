@@ -1,6 +1,6 @@
 main <- function(data = data) {
   source("modules/ui/sections/summary.R")
-  summary <- summary()
+  summary_ui <- summary
 
   source("modules/ui/sections/explore_imported_data.R")
   explore_imported_data <- explore_imported_data(data = data)
@@ -9,7 +9,7 @@ main <- function(data = data) {
   train_models <- train_models()
 
   source("modules/ui/sections/explore_results.R")
-  explore_results <- explore_results()
+  explore_results_ui <- explore_results
 
   # page 2 content
   source("modules/ui/sections/page2.R")
@@ -20,7 +20,7 @@ main <- function(data = data) {
   page3_content_module <- page3()
 
   # header
-  header <- summary$ui
+  header <- summary_ui
 
   all_pages <- tags$div(
     id = "main_tabs",
@@ -28,7 +28,7 @@ main <- function(data = data) {
       condition = "input.current_page == 'page1' || typeof input.current_page === 'undefined'",
       explore_imported_data$section,
       train_models$section,
-      explore_results$section
+      explore_results_ui
     ),
     conditionalPanel(
       condition = "input.current_page == 'page2'",
