@@ -9,6 +9,7 @@ shinyML_regression <- function(data) {
   library(sparklyr)
   library(dplyr) # or use dplyr::function_name for individual functions
   library(tidyr)
+  library(stringr)
   library(DT)
   library(h2o)
   library(plotly)
@@ -26,6 +27,8 @@ shinyML_regression <- function(data) {
   ui_parts <- import_UI(data = data)
   source("modules/server.R")
   server_part <- import_server(data = data)
+  # make exported reactives available to outer apps if needed
+  assign("shinyML_exports", server_part$exports, envir = .GlobalEnv)
 
   ## ---------------------------------------------------------------------------- LAUNCH APP  -----------------------------------
   # Assembly UI and SERVER sides inside shinyApp
