@@ -26,6 +26,8 @@ library(DALEX)
 library(modelStudio)
 library(datamods)
 library(shinyFiles)
+library(DALEXtra)
+library(r2d3)
 
 shinyXAI_app <- function() {
     # Load all required packages

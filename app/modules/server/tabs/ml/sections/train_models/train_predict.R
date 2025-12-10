@@ -2,11 +2,6 @@ models_to_train <- reactiveValues(params = list())
 source(path(PATH_SELECT_PARAMS,"select_buttons_events.R"), local = shared_env)
 source_dir(PATH_TRAIN_ML, local = shared_env)
 
-split <- list(train = 70)
-train_test_data <- reactive({
-  prepare_data_for_models(current_dataset$data, split)
-})
-
 observeEvent(input$train_models_btn, {
   prep_data <- train_test_data()
 
@@ -40,7 +35,7 @@ observeEvent(input$train_models_btn, {
 predictions <- reactive({
   prep_data <- train_test_data()
   trained_models <- model_training_results()$trained_models
-  table_results <- make_predictions(
+  table_results <- make_predict_tables(
     trained_models,
     prep_data,
     target

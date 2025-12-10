@@ -35,3 +35,8 @@ default_title <- "Default dataset"
 default_data <- iris
 
 process_and_update(default_data, default_title)
+
+split <- list(train = 70)
+train_test_data <- reactive({
+  prepare_data_for_models(current_dataset$data, split)
+})

@@ -22,7 +22,7 @@ train_models <- function(prep_data, var_input_list, y, models_to_train) {
     fit_fn <- selected_fit_functions[[model_name]]
     parameter <- models_to_train[[model_name]]
     # Fit the model
-    model_obj <- fit_fn(var_input_list, y, prep_data$data_train, parameter)
+    model_obj <- fit_fn(var_input_list, y, prep_data$data_train_encoded, parameter)
 
     # Store model, time, importance, and predictions
     trained_models[[model_name]] <- model_obj

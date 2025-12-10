@@ -1,9 +1,0 @@
-source("modules/ui/sections/explore_imported_data/tabset.R")
-
-main <- argonColumn(
-  width = 12,
-  argonCard(
-    width = 12, shadow = TRUE,
-    tabset
-  )
-)
