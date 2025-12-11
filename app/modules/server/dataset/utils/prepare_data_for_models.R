@@ -30,7 +30,7 @@ prepare_data_for_models <- function(
     }
   }
 
-  # ✅ --- apply feature selection ---
+  # --- apply feature selection ---
   if (length(selected_features) > 0) {
     keep_cols <- c(selected_features, target_col)
     keep_cols <- keep_cols[keep_cols %in% colnames(data_train)]
@@ -40,7 +40,7 @@ prepare_data_for_models <- function(
   }
 
   # --- encode train/test ---
-  if (!is.na(target_col)) {
+  if (!is.na(target_col) && !is.null(target_col)) {
     y_train <- data_train[[target_col]]
     x_train <- data_train[, setdiff(colnames(data_train), target_col), with = FALSE]
     x_train_mm <- model.matrix(~ . -1, data = x_train)

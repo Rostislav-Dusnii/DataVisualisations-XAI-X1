@@ -25,7 +25,7 @@ PATH_DATASET            <- path("modules/server/dataset")
 PATH_DATASET_UTILS      <- path("modules/server/dataset/utils")
 
 PATH_SHARED     <- path("modules/server/shared")
-PATH_SHARED_UTILS      <- path("modules/server/shared/utils")
+PATH_SHARED_UTILS     <- path("modules/server/shared/utils")
 
 PATH_TABS               <- path("modules/server/tabs")
 PATH_CHATBOT            <- path("modules/server/tabs/chatbot")
@@ -65,6 +65,13 @@ PATH_TRAIN_FIT_MLR      <- path(PATH_TRAIN_UTILS, "fit/mlr")
 
 # select_parameters
 PATH_SELECT_PARAMS      <- path(PATH_TRAIN_MODELS, "select_parameters")
+
+
+# XAI
+PATH_XAI_SECTIONS        <- path("modules/server/tabs/xai/sections")
+PATH_XAI_EXPLORE_MODELS      <- path(PATH_XAI_SECTIONS, "explore_trained_models")
+PATH_XAI_EXPLORE_MODELS_UTILS      <- path(PATH_XAI_EXPLORE_MODELS, "utils")
+
 
 # -------------------------------------------------------------------
 # UI Structure

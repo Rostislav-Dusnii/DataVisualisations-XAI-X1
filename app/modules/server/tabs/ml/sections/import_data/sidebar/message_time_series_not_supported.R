@@ -1,5 +1,5 @@
 output$message_time_series_not_supported <- renderUI({
-  ts_columns <- dates_variable_list()  # columns detected as date / POSIXct
+  ts_columns <- current_dataset$dates_variable_list  # columns detected as date / POSIXct
   number_of_ts <- length(ts_columns)
 
   if (number_of_ts > 0) {

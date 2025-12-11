@@ -25,56 +25,6 @@ active_model <- reactive({
   tm[[1]]
 })
 
-xai_payload <- reactive({
-  model_obj <- active_model()
-  req(model_obj)
-
-  y_col <- target$value
-  data_test <- train_test_data()[["data_test"]]
-  req(!is.null(data_test), y_col %in% names(data_test))
-
-  data_test_df <- as.data.frame(data_test)
-
-  x_test <- data_test_df[, setdiff(names(data_test_df), y_col), drop = FALSE]
-  y_test <- data_test_df[[y_col]]
-
-  predict_fun <- NULL
-  framework <- model_obj$params$framework
-
-  model_class <- class(model_obj$fit)[1]
-  is_h2o <- grepl("^H2O", model_class)
-  is_mlr <- inherits(model_obj$fit, "WrappedModel")
-
-  if (is_h2o || (!is.null(framework) && framework == "h2o")) {
-    predict_fun <- function(m, newdata) {
-      preds <- h2o.predict(m, as.h2o(newdata))
-      as.vector(preds$predict)
-    }
-  } else if (is_mlr || (!is.null(framework) && framework == "mlr")) {
-    predict_fun <- function(m, newdata) {
-      predict(m, newdata = newdata)$data$response
-    }
-  }
-
-  explainer <- DALEX::explain(
-    model = model_obj$fit,
-    data = x_test,
-    y = y_test,
-    label = model_obj$name,
-    predict_function = predict_fun,
-    verbose = FALSE
-  )
-
-  new_obs <- head(data_test_df, 2)
-
-  list(
-    model_label = model_obj$name,
-    explainer = explainer,
-    new_obs = new_obs,
-    target = y_col
-  )
-})
-
 # lightweight model context for downstream consumers (e.g., chatbot)
 model_context <- reactive({
   am <- active_model()

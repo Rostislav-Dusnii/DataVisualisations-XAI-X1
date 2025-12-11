@@ -1,26 +1,23 @@
 source_dir(PATH_DATASET_UTILS)
-dates_variable_list <- reactive({
-    req(current_dataset$data) # ensure data is available
-    get_date_columns(current_dataset$data)
-})
 
 current_dataset <- reactiveValues(
     data = NA,
     title = NA,
-    available_variables = NA
+    available_variables = NA,
+    dates_variable_list = list(),
+    id_columns = list()
 )
 target <- reactiveValues(value = NA, results_table_value = NA)
 features <- reactiveValues(list = list())
 
-
 available_targets <- reactive({
   numeric_cols <- sapply(current_dataset$data[, current_dataset$available_variables, with = FALSE], 
                          function(x) is.numeric(x) || is.integer(x))
-  setdiff(current_dataset$available_variables[numeric_cols], dates_variable_list())
+  setdiff(current_dataset$available_variables[numeric_cols], current_dataset$dates_variable_list)
 })
 available_features <- reactive({
   target_col <- target$value
-  setdiff(current_dataset$available_variables, c(dates_variable_list(), target_col))
+  setdiff(current_dataset$available_variables, c(current_dataset$dates_variable_list, target_col))
 })
 
 process_and_update <- function(data, title) {
@@ -28,6 +25,8 @@ process_and_update <- function(data, title) {
     current_dataset$data <- data_process_result$data
     current_dataset$available_variables <- data_process_result$available_variables
     current_dataset$title <- title
+    current_dataset$dates_variable_list <- data_process_result$date_columns
+    current_dataset$id_columns <- data_process_result$id_columns
 }
 
 

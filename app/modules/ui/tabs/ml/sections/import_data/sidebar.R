@@ -9,7 +9,8 @@ sidebar <- argonColumn(
       uiOutput("message_train_test_split"),
       uiOutput("message_nrow_train_dataset"),
       uiOutput("message_not_enough_data"),
-      uiOutput("message_time_series_not_supported")
+      uiOutput("message_time_series_not_supported"),
+      uiOutput("message_id_columns_not_supported")
     )
   )
 )
