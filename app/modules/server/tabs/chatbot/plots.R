@@ -1,7 +1,12 @@
-
 PLOT_COLORS <- list(
   normal = "#3498db",
   highlight = "#e74c3c"
+)
+
+# Animation settings for smooth transitions
+ANIMATION_CONFIG <- list(
+  transition = list(duration = 500, easing = "cubic-in-out"),
+  frame = list(duration = 500, redraw = TRUE)
 )
 
 create_placeholder_plot <- function(message) {
@@ -27,7 +32,7 @@ output$chat_var_importance_plot <- plotly::renderPlotly({
   }
 
   vi_agg <- aggregate(dropout_loss ~ variable, data = vi_df, FUN = mean)
-  vi_agg <- vi_agg[order(vi_agg$dropout_loss, decreasing = TRUE), ]
+  vi_agg <- vi_agg[order(vi_agg$dropout_loss, decreasing = FALSE), ]
 
   if (!is.null(highlight_var) && length(highlight_var) > 0 && nchar(highlight_var) > 0) {
     vi_agg$highlight <- ifelse(vi_agg$variable == highlight_var, "highlight", "normal")
@@ -35,15 +40,30 @@ output$chat_var_importance_plot <- plotly::renderPlotly({
     vi_agg$highlight <- "normal"
   }
 
-  p <- ggplot(vi_agg, aes(x = reorder(variable, dropout_loss), y = dropout_loss, fill = highlight)) +
-    geom_bar(stat = "identity", alpha = 0.8) +
-    scale_fill_manual(values = c(normal = PLOT_COLORS$normal, highlight = PLOT_COLORS$highlight), guide = "none") +
-    coord_flip() +
-    labs(x = "Variable", y = "Dropout Loss (importance)", title = "Variable Importance") +
-    theme_minimal() +
-    theme(plot.title = element_text(size = 12, face = "bold"))
+  # Build plot directly with plotly for better animation control
+  colors <- ifelse(vi_agg$highlight == "highlight", PLOT_COLORS$highlight, PLOT_COLORS$normal)
 
-  plotly::ggplotly(p) %>% plotly::layout(margin = list(l = 100))
+  plotly::plot_ly(
+    data = vi_agg,
+    x = ~dropout_loss,
+    y = ~reorder(variable, dropout_loss),
+    type = "bar",
+    orientation = "h",
+    marker = list(
+      color = colors,
+      opacity = 0.8,
+      line = list(color = colors, width = 1)
+    ),
+    hovertemplate = "<b>%{y}</b><br>Importance: %{x:.4f}<extra></extra>"
+  ) %>%
+    plotly::layout(
+      title = list(text = "Variable Importance", font = list(size = 14, weight = "bold")),
+      xaxis = list(title = "Dropout Loss (importance)"),
+      yaxis = list(title = ""),
+      margin = list(l = 120),
+      transition = ANIMATION_CONFIG$transition
+    ) %>%
+    plotly::config(displayModeBar = FALSE)
 })
 
 output$chat_pdp_plot <- plotly::renderPlotly({
@@ -69,12 +89,25 @@ output$chat_pdp_plot <- plotly::renderPlotly({
   plot_df <- data.frame(x = pdp_var$`_x_`, y = pdp_var$`_yhat_`)
   plot_df <- plot_df[order(plot_df$x), ]
 
-  p <- ggplot(plot_df, aes(x = x, y = y)) +
-    geom_line(color = PLOT_COLORS$highlight, linewidth = 1.2) +
-    geom_point(color = PLOT_COLORS$highlight, size = 2) +
-    labs(x = selected_var, y = "Average Predicted Value", title = paste("Partial Dependence:", selected_var)) +
-    theme_minimal() +
-    theme(plot.title = element_text(size = 12, face = "bold"))
-
-  plotly::ggplotly(p)
+  # Build plot directly with plotly for better animation control
+  plotly::plot_ly(data = plot_df, x = ~x, y = ~y) %>%
+    plotly::add_lines(
+      line = list(color = PLOT_COLORS$highlight, width = 3, shape = "spline"),
+      hoverinfo = "none"
+    ) %>%
+    plotly::add_markers(
+      marker = list(
+        color = PLOT_COLORS$highlight,
+        size = 8,
+        line = list(color = "white", width = 2)
+      ),
+      hovertemplate = paste0("<b>", selected_var, "</b>: %{x:.2f}<br>Predicted: %{y:.3f}<extra></extra>")
+    ) %>%
+    plotly::layout(
+      title = list(text = paste("Partial Dependence:", selected_var), font = list(size = 14, weight = "bold")),
+      xaxis = list(title = selected_var),
+      yaxis = list(title = "Average Predicted Value"),
+      transition = ANIMATION_CONFIG$transition
+    ) %>%
+    plotly::config(displayModeBar = FALSE)
 })
