@@ -14,6 +14,5 @@ tabset <- argonTabSet(
     argonIcon("calendar-grid-58")
   ),
   compare_performance,
-  feature_importance,
   table_results
 )

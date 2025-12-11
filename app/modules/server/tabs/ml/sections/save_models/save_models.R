@@ -41,7 +41,7 @@ observe({
       observeEvent(input[[button_input_id]], {
         cat("DEBUG: Save button pressed for model:", display_name, "\n")
 
-        folder_res <- global$datapath
+        folder_res <- isolate(global$datapath)
         cat("DEBUG: dlg_dir result:", folder_res, "\n")
 
         # Check if user cancelled

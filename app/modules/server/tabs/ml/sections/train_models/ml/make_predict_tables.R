@@ -1,6 +1,6 @@
 source(path(PATH_TRAIN_UTILS,"predict_table.R"), local = shared_env)
 
-make_predict_tables <- function(trained_models, prep_data, target) {
+make_predict_tables <- function(trained_models, prep_data, target_obj) {
   all_results <- list()
   req(target$results_table_value)
   req(target$value)

@@ -1,7 +1,7 @@
 observeEvent(explainers(), {
 
   expl_list <- explainers()
-  dt <- train_test_data()
+  dt <- isolate(train_test_data())
 
   req(length(expl_list) > 0)
   req(dt$data_test_encoded)
