@@ -1,4 +1,4 @@
-fit_ranger_mlr <- function(var_input_list, y, data_train, parameter) {
+fit_ranger_mlr <- function(y, data_train, parameter) {
   parameter$framework <- "mlr"
   model_display_name <- "Ranger Regression"
   task <- makeRegrTask(id = model_display_name, data = data_train, target = y)

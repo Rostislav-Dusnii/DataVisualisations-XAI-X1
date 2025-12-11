@@ -1,9 +1,8 @@
-fit_random_forest_h2o <- function(var_input_list, y, data_train, parameter) {
+fit_random_forest_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Random forest"
   t1 <- Sys.time()
   fit <- h2o.randomForest(
-    x = as.character(var_input_list),
     y = y,
     training_frame = as.h2o(data_train),
     ntrees = parameter$num_tree_random_forest,

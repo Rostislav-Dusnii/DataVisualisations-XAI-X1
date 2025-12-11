@@ -1,10 +1,9 @@
-fit_gradient_boost_h2o <- function(var_input_list, y, data_train, parameter) {
+fit_gradient_boost_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Gradient boosted trees"
   t1 <- Sys.time()
 
   fit <- h2o.gbm(
-    x = as.character(var_input_list),
     y = y,
     training_frame = as.h2o(data_train),
     sample_rate = parameter$sample_rate_gbm,

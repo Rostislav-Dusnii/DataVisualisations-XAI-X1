@@ -1,17 +1,16 @@
 # Define performance table visible on "Compare models performances" tab
-output$model_performance_comparison <- renderDT({
+performance_data <- eventReactive(predictions()[["table_results"]], {
   table_results <- predictions()[["table_results"]]
   req(!is.null(table_results))
-  req(ncol(table_results) > ncol(data))
+  req(ncol(table_results) > ncol(current_dataset$data))
 
-  y <- target$results_table_value
-  # Gather prediction columns into long format
+  y <- isolate(target$results_table_value)
+
   performance_table <- table_results %>%
     select(-features$list) %>%
     gather(key = Model, value = Predicted_value, -all_of(y)) %>%
     as.data.table()
 
-  # Compute performance metrics
   performance_table <- performance_table %>%
     group_by(Model) %>%
     summarise(
@@ -23,26 +22,29 @@ output$model_performance_comparison <- renderDT({
       .groups = "drop"
     )
 
-  # Merge training time if available
-  training_time <- model_training_results()[["table_training_time"]]
+  training_time <- isolate(model_training_results()[["table_training_time"]])
   if (!is.null(training_time) && nrow(training_time) > 0) {
     performance_table <- performance_table %>%
       left_join(training_time, by = "Model")
   }
-  # Render datatable
+
+  setnames(performance_table, old = c("mape", "rmse"), new = c("MAPE(%)", "RMSE"))
+  performance_table
+})
+
+output$model_performance_comparison <- renderDT({
   datatable(
-    performance_table %>% arrange(mape) %>% as.data.table(),
+    performance_data() %>% arrange(`MAPE(%)`) %>% as.data.table(),
     extensions = "Buttons",
     options = list(dom = "Bfrtip", buttons = c("csv", "excel", "pdf", "print"))
   )
-  setnames(performance_table, old = c("mape", "rmse"), new = c("MAPE(%)", "RMSE"))
 })
 
 
 # Message indicating that results are not available if no model has been running
 output$message_compare_models_performances <- renderUI({
-  table_results <- predictions()[["table_results"]]
-  if (ncol(table_results) <= ncol(data)) {
+  trained_models <- model_training_results()$trained_models
+  if (length(trained_models) <= 0) {
     sendSweetAlert(
       session = session,
       title = "",

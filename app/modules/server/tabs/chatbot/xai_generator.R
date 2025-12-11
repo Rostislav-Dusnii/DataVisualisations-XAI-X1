@@ -1,41 +1,25 @@
 
 generate_xai_for_model <- function(model_idx) {
   tryCatch({
-    all_models <- model_training_results()$trained_models
+    all_explainers <- explainers()
 
-    if (is.null(all_models) || model_idx > length(all_models)) {
-      message("XAI Error: No models or invalid index")
+    if (is.null(all_explainers) || length(all_explainers) == 0) {
+      message("XAI Error: explainers list is empty")
       return(FALSE)
     }
 
-    model_obj <- all_models[[model_idx]]
-    y_col <- target$value
-    data_test <- train_test_data()[["data_test"]]
-
-    if (is.null(data_test)) {
-      message("XAI Error: data_test is NULL")
+    if (model_idx < 1 || model_idx > length(all_explainers)) {
+      message(paste("XAI Error: Invalid model index:", model_idx))
       return(FALSE)
     }
 
-    if (!y_col %in% names(data_test)) {
-      message(paste("XAI Error: y_col", y_col, "not in data_test"))
+    # --- Get the explainer for this model ---
+    explainer <- all_explainers[[model_idx]]
+
+    if (is.null(explainer)) {
+      message("XAI Error: explainer is NULL")
       return(FALSE)
     }
-
-    data_test_df <- as.data.frame(data_test)
-    x_test <- data_test_df[, setdiff(names(data_test_df), y_col), drop = FALSE]
-    y_test <- data_test_df[[y_col]]
-
-    predict_fun <- create_predict_function(model_obj)
-
-    explainer <- DALEX::explain(
-      model = model_obj$fit,
-      data = x_test,
-      y = y_test,
-      label = model_obj$name,
-      predict_function = predict_fun,
-      verbose = FALSE
-    )
 
     chat_xai_results$var_importance <- DALEX::model_parts(explainer, type = "variable_importance")
     chat_xai_results$partial_dependence <- DALEX::model_profile(explainer, type = "partial")

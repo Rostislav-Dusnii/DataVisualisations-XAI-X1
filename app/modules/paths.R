@@ -24,6 +24,9 @@ PATH_R          <- path("modules", "R")   # your non-module R files
 PATH_DATASET            <- path("modules/server/dataset")
 PATH_DATASET_UTILS      <- path("modules/server/dataset/utils")
 
+PATH_SHARED     <- path("modules/server/shared")
+PATH_SHARED_UTILS     <- path("modules/server/shared/utils")
+
 PATH_TABS               <- path("modules/server/tabs")
 PATH_CHATBOT            <- path("modules/server/tabs/chatbot")
 PATH_ML                 <- path("modules/server/tabs/ml")
@@ -63,6 +66,13 @@ PATH_TRAIN_FIT_MLR      <- path(PATH_TRAIN_UTILS, "fit/mlr")
 # select_parameters
 PATH_SELECT_PARAMS      <- path(PATH_TRAIN_MODELS, "select_parameters")
 
+
+# XAI
+PATH_XAI_SECTIONS        <- path("modules/server/tabs/xai/sections")
+PATH_XAI_EXPLORE_MODELS      <- path(PATH_XAI_SECTIONS, "explore_trained_models")
+PATH_XAI_EXPLORE_MODELS_UTILS      <- path(PATH_XAI_EXPLORE_MODELS, "utils")
+
+
 # -------------------------------------------------------------------
 # UI Structure
 # -------------------------------------------------------------------
@@ -70,6 +80,9 @@ PATH_SELECT_PARAMS      <- path(PATH_TRAIN_MODELS, "select_parameters")
 PATH_UI_TABS            <- path("modules/ui/tabs")
 PATH_UI_CHATBOT         <- path(PATH_UI_TABS, "chatbot")
 PATH_UI_ML              <- path(PATH_UI_TABS, "ml")
+PATH_UI_XAI              <- path(PATH_UI_TABS, "xai")
+
+# ML 
 PATH_UI_ML_SECTIONS     <- path(PATH_UI_ML, "sections")
 
 # explore_imported_data (UI)
@@ -95,7 +108,8 @@ PATH_UI_TRAIN_MODELS     <- path(PATH_UI_ML_SECTIONS, "train_models")
 PATH_UI_TRAIN_CARDS      <- path(PATH_UI_TRAIN_MODELS, "cards")
 
 # XAI
-PATH_UI_XAI              <- path(PATH_UI_TABS, "xai")
+PATH_UI_XAI_SECTIONS     <- path(PATH_UI_XAI, "sections")
+PATH_UI_XAI_EXP_MODELS      <- path(PATH_UI_XAI_SECTIONS, "explore_trained_models")
 
 # -------------------------------------------------------------------
 # Root-level R Files

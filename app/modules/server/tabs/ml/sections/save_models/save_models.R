@@ -39,11 +39,7 @@ observe({
       button_input_id <- paste0("save_", m)
 
       observeEvent(input[[button_input_id]], {
-        cat("DEBUG: Save button pressed for model:", display_name, "\n")
-
-        folder_res <- global$datapath
-        cat("DEBUG: dlg_dir result:", folder_res, "\n")
-
+        folder_res <- isolate(global$datapath)
         # Check if user cancelled
         if (folder_res == "") {
           sendSweetAlert(
@@ -69,7 +65,6 @@ observe({
 
         # Save the model
         saved_file <- save_fn(model_obj, save_dir = folder_res)
-        cat("DEBUG: model saved at:", saved_file, "\n")
 
         sendSweetAlert(
           session,
