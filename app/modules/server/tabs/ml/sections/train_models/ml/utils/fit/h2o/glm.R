@@ -1,9 +1,8 @@
-fit_glm_h2o <- function(var_input_list, y, data_train, parameter) {
+fit_glm_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Generalized linear regression"
   t1 <- Sys.time()
   fit <- h2o.glm(
-    x = as.character(var_input_list),
     y = y,
     training_frame = as.h2o(data_train),
     family = parameter$family_glm,

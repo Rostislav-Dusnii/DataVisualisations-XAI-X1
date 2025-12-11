@@ -1,8 +1,8 @@
 predict_table_h2o <- function(model_obj, data_test) {
-  table_pred <- h2o.predict_table(model_obj$fit, as.h2o(data_test)) %>%
+  table_pred <- h2o.predict(model_obj$fit, as.h2o(data_test)) %>%
     as.data.table() %>%
-    mutate(predict_table = round(predict_table, 3)) %>%
-    rename(!!model_obj$name := predict_table)
+    mutate(predict = round(predict, 3)) %>%
+    rename(!!model_obj$name := predict)
 
   table_pred
 }

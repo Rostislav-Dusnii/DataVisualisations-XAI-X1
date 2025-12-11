@@ -7,7 +7,6 @@ observeEvent(input$train_models_btn, {
 
   train_results <- train_models(
     prep_data,
-    features$list,
     target$value,
     models_to_train$params
   )

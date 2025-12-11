@@ -1,12 +1,12 @@
 source(path(PATH_TRAIN_UTILS,"fit_function_mapping.R"), local = shared_env)
 source(path(PATH_TRAIN_UTILS,"get_feature_importance.R"), local = shared_env)
 
-train_models <- function(prep_data, var_input_list, y, models_to_train) {
+train_models <- function(prep_data, y, models_to_train) {
   trained_models <- list()
   all_times <- list()
   all_importances <- list()
 
-  if (length(var_input_list) == 0 || length(models_to_train) == 0) {
+  if (length(features$list) == 0 || length(models_to_train) == 0 || is.null(target$value)) {
     return(
       list(
         trained_models = trained_models,
@@ -22,7 +22,7 @@ train_models <- function(prep_data, var_input_list, y, models_to_train) {
     fit_fn <- selected_fit_functions[[model_name]]
     parameter <- models_to_train[[model_name]]
     # Fit the model
-    model_obj <- fit_fn(var_input_list, y, prep_data$data_train_encoded, parameter)
+    model_obj <- fit_fn(y, prep_data$data_train_encoded, parameter)
 
     # Store model, time, importance, and predictions
     trained_models[[model_name]] <- model_obj

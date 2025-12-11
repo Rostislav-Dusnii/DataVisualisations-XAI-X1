@@ -20,7 +20,6 @@ observeEvent(explainers(), {
     model_label <- explainer$label
 
     widget_id <- paste0("model_studio_widget_", i)
-    print("modelst")
     # ---- create model studio ----
     ms <- modelStudio(
       explainer,
@@ -51,18 +50,21 @@ observeEvent(explainers(), {
       )
     )
   })
-  print("????")
-  print(tab_list)
 
   # ---- render tabset ----
   output$model_studio_tabs <- renderUI({
-    argonTabSet(
-      width = 12,
-      id = "model_studio_tabset",
-      card_wrapper = TRUE,
-      horizontal = TRUE,
-      size = "sm",
-      tab_list[[1]]
+    do.call(
+      argonTabSet,
+      c(
+        list(
+          width = 12,
+          id = "model_studio_tabset",
+          card_wrapper = TRUE,
+          horizontal = TRUE,
+          size = "sm"
+        ),
+        tab_list  
+      )
     )
   })
 })
