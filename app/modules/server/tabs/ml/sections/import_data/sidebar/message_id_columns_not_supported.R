@@ -1,5 +1,6 @@
+# warning badge for removed ID columns
 output$message_id_columns_not_supported <- renderUI({
-  id_columns <- current_dataset$id_columns   # columns detected as ID-like
+  id_columns <- current_dataset$id_columns
   number_of_ids <- length(id_columns)
 
   if (number_of_ids > 0) {

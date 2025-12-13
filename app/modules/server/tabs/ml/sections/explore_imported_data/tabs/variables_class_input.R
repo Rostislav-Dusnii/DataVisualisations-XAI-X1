@@ -1,3 +1,4 @@
+# table showing variable names and their data types
 output$variables_class_input <- renderDT({
   req(current_dataset$data, current_dataset$available_variables)
 

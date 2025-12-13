@@ -1,3 +1,4 @@
+# variable table and distribution plots tab
 variables_summary <- argonTab(
   tabName = "Variables Summary",
   active = FALSE,

@@ -1,3 +1,4 @@
+# trains H2O gradient boosted trees
 fit_gradient_boost_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Gradient boosted trees"

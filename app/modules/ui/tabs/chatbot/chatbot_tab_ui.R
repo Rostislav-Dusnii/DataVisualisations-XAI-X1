@@ -1,3 +1,4 @@
+# chatbot tab layout with XAI plots and chat interface
 chatbot_tab_ui <- tagList(
   tags$div(
     style = "padding: 20px;",

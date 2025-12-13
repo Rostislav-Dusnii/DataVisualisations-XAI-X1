@@ -1,6 +1,7 @@
 source(path(PATH_SELECT_PARAMS,"models_parameters_maps.R"), local = shared_env)
 source(path(PATH_SELECT_PARAMS,"set_model_params.R"), local = shared_env)
 
+# toggle handlers for model selection checkboxes
 observeEvent(input$select_rf_h2o, {
   set_model_params(input$select_rf_h2o, "rf_h2o", rf_h2o_param_map)
 })

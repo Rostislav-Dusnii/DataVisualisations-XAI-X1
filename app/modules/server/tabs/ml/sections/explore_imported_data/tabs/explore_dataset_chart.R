@@ -1,4 +1,4 @@
-# Define plotly chart to explore dependencies between variables
+# scatter plot comparing train/test data
 output$dataset_chart <- renderPlotly({
   req(!is.null(input$x_variable_input_curve))
   req(!is.null(input$y_variable_input_curve))

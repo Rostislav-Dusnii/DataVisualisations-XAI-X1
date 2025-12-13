@@ -1,16 +1,16 @@
-# Store all training results (models, times, importances) across multiple runs
+# store all training results across multiple runs
 all_training_results <- reactiveVal(list(
   trained_models = list(),
   table_training_time = data.table(),
   table_importance = data.table()
 ))
 
-
+# getter for training results
 model_training_results <- reactive({
   all_training_results()
 })
 
-
+# returns currently selected model or first model
 active_model <- reactive({
   tm <- model_training_results()[["trained_models"]]
   if (length(tm) == 0) {
@@ -25,7 +25,7 @@ active_model <- reactive({
   tm[[1]]
 })
 
-# lightweight model context for downstream consumers (e.g., chatbot)
+# lightweight model context for chatbot
 model_context <- reactive({
   am <- active_model()
   dt <- train_test_data()

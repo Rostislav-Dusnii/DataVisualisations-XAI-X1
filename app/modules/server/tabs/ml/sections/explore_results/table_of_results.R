@@ -1,4 +1,4 @@
-# Define results table
+# predictions table with export buttons
 output$table_of_results <- renderDT(
   {
     datatable(

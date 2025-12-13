@@ -1,9 +1,10 @@
-
+# colors
 PLOT_COLORS <- list(
   normal = "#3498db",
   highlight = "#e74c3c"
 )
 
+# empty plot with message
 create_placeholder_plot <- function(message) {
   p <- ggplot() +
     annotate("text", x = 0.5, y = 0.5, label = message, size = 4, color = "gray50") +
@@ -11,6 +12,7 @@ create_placeholder_plot <- function(message) {
   plotly::ggplotly(p)
 }
 
+# variable importance bar chart
 output$chat_var_importance_plot <- plotly::renderPlotly({
   vi <- chat_xai_results$var_importance
   highlight_var <- chat_xai_results$highlight_var
@@ -19,6 +21,7 @@ output$chat_var_importance_plot <- plotly::renderPlotly({
     return(create_placeholder_plot("Ask a question to generate explanations"))
   }
 
+  # filter out baseline/full model entries
   vi_df <- as.data.frame(vi)
   vi_df <- vi_df[!vi_df$variable %in% c("_baseline_", "_full_model_"), ]
 
@@ -26,9 +29,11 @@ output$chat_var_importance_plot <- plotly::renderPlotly({
     return(create_placeholder_plot("No variable importance data available"))
   }
 
+  # aggregate and sort by importance
   vi_agg <- aggregate(dropout_loss ~ variable, data = vi_df, FUN = mean)
   vi_agg <- vi_agg[order(vi_agg$dropout_loss, decreasing = TRUE), ]
 
+  # mark highlighted variable
   if (!is.null(highlight_var) && length(highlight_var) > 0 && nchar(highlight_var) > 0) {
     vi_agg$highlight <- ifelse(vi_agg$variable == highlight_var, "highlight", "normal")
   } else {
@@ -46,6 +51,7 @@ output$chat_var_importance_plot <- plotly::renderPlotly({
   plotly::ggplotly(p) %>% plotly::layout(margin = list(l = 100))
 })
 
+# partial dependence plot
 output$chat_pdp_plot <- plotly::renderPlotly({
   pdp <- chat_xai_results$partial_dependence
   selected_var <- input$chat_pdp_variable
@@ -60,12 +66,14 @@ output$chat_pdp_plot <- plotly::renderPlotly({
     return(create_placeholder_plot("PDP data format error"))
   }
 
+  # filter to selected variable
   pdp_var <- pdp_df[pdp_df$`_vname_` == selected_var, ]
 
   if (nrow(pdp_var) == 0) {
     return(create_placeholder_plot(paste("No data for:", selected_var)))
   }
 
+  # prepare plot data
   plot_df <- data.frame(x = pdp_var$`_x_`, y = pdp_var$`_yhat_`)
   plot_df <- plot_df[order(plot_df$x), ]
 

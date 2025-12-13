@@ -1,7 +1,9 @@
+# selected models and their parameters
 models_to_train <- reactiveValues(params = list())
 source(path(PATH_SELECT_PARAMS,"select_buttons_events.R"), local = shared_env)
 source_dir(PATH_TRAIN_ML, local = shared_env)
 
+# train button click handler
 observeEvent(input$train_models_btn, {
   prep_data <- train_test_data()
   train_results <- train_models(
@@ -27,6 +29,7 @@ observeEvent(input$train_models_btn, {
   ))
 })
 
+# generates predictions when models finish training
 predictions <- eventReactive(model_training_results()$trained_models, {
   trained_models <- model_training_results()$trained_models
   req(trained_models)

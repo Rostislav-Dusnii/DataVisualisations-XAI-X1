@@ -1,3 +1,4 @@
+# Summary section with ML task info cards
 summary <- argonDashHeader(
   gradient = TRUE,
   color = "danger",

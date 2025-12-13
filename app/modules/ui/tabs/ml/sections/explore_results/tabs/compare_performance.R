@@ -1,3 +1,4 @@
+# model performance comparison tab
 compare_performance <- argonTab(
   tabName = "Compare models performances",
   active = FALSE,

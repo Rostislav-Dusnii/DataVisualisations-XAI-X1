@@ -1,4 +1,6 @@
+# Custom header with navigation tabs (Train Models, Arena.drwhy, Chatbot)
 header <- tagList(
+    # Header styling
     tags$style(HTML("
       .custom-header {
         background: linear-gradient(87deg, #f5365c 0, #f56036 100%);
@@ -96,6 +98,7 @@ header <- tagList(
         )
       )
     ),
+    # Tab switching JavaScript
     tags$script(HTML("
       $(document).on('click', '.nav-tabs-custom .nav-link', function(e) {
         e.preventDefault();

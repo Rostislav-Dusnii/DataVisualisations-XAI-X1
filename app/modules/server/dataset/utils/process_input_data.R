@@ -1,27 +1,30 @@
+# checks if column is high-cardinality or ID-like
 is_id_column <- function(x, colname) {
-  # High-cardinality categorical OR name ending with "id"
   (is.character(x) || is.factor(x)) && length(unique(x)) > 0.5 * length(x) ||
     grepl("id$", colname, ignore.case = TRUE)
 }
 
 
+# sanitizes column names, removes ID and date columns
 process_input_data <- function(data, session = shiny::getDefaultReactiveDomain()) {
 
   data <- data.table(data)
 
+  # row limit
   if (nrow(data) > 1e6) {
     stop("Input dataset must not exceed one million rows")
   }
 
+  # sanitize column names
   original_colnames <- colnames(data)
 
   sanitized_colnames <- original_colnames %>%
-    str_replace_all("^\\W+|\\W+$", "") %>%   # remove symbols at start or end
-    make.names(unique = TRUE)                # ensure valid and unique names
+    str_replace_all("^\\W+|\\W+$", "") %>%
+    make.names(unique = TRUE)
 
   colnames(data) <- sanitized_colnames
 
-  # Identify columns that were modified
+  # warn about renamed columns
   changed_cols <- original_colnames[original_colnames != sanitized_colnames]
   if (length(changed_cols) > 0) {
     show_alert(
@@ -35,7 +38,7 @@ process_input_data <- function(data, session = shiny::getDefaultReactiveDomain()
     )
   }
 
-  #  --- Detect and remove ID-like columns ---
+  # detect and remove ID columns
   id_cols <- c()
   for (col in colnames(data)) {
     if (is_id_column(data[[col]], col)) {
@@ -57,7 +60,7 @@ process_input_data <- function(data, session = shiny::getDefaultReactiveDomain()
     )
   }
 
-  #  --- Remove date/POSIXct columns ---
+  # remove date columns
   date_columns <- get_date_columns(data)
   ts_columns <- date_columns[date_columns %in% colnames(data)]
 
@@ -75,6 +78,7 @@ process_input_data <- function(data, session = shiny::getDefaultReactiveDomain()
     )
   }
 
+  # return processed data and metadata
   list(
     data = data,
     available_variables = colnames(data),

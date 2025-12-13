@@ -1,23 +1,27 @@
-
+# openai api configuration
 OPENAI_MODEL <- "gpt-4o-mini"
 OPENAI_TEMPERATURE <- 0.3
 OPENAI_TIMEOUT <- 30
 
+# main function to process user questions about xai results
 process_xai_question <- function(user_question, session) {
   vi_data <- chat_xai_results$var_importance
   pdp_data <- chat_xai_results$partial_dependence
   all_models <- tryCatch(model_training_results()$trained_models, error = function(e) NULL)
 
+  # build context from model and XAI data for the prompt
   context_parts <- build_context(all_models, vi_data, pdp_data)
   valid_vars <- extract_valid_vars(vi_data)
   full_input <- paste0(paste(context_parts, collapse = "\n"), "\n\nUser question: ", user_question)
 
+  # check for api key
   api_key <- Sys.getenv("OPENAI_API_KEY")
   if (api_key == "") {
     shinychat::chat_append("chat", "OpenAI API key is missing. Set OPENAI_API_KEY in your environment.", session = session)
     return()
   }
 
+  # call openai and process the response
   tryCatch({
     response <- call_openai_api(api_key, build_system_prompt(valid_vars), full_input)
     ai_response <- response$choices[[1]]$message$content
@@ -29,9 +33,11 @@ process_xai_question <- function(user_question, session) {
 }
 
 
+# builds context string with model info, dataset details, and xai results
 build_context <- function(all_models, vi_data, pdp_data) {
   context_parts <- c()
 
+  # add model and dataset info
   if (!is.null(all_models) && !is.null(chat_xai_results$selected_model_idx)) {
     model_obj <- all_models[[chat_xai_results$selected_model_idx]]
     context_parts <- c(context_parts, paste0("\n[Current Model]\nModel: ", model_obj$name))
@@ -47,6 +53,7 @@ build_context <- function(all_models, vi_data, pdp_data) {
     }
   }
 
+  # add variable importance data (sorted by importance)
   if (!is.null(vi_data)) {
     vi_df <- as.data.frame(vi_data)
     vi_df <- vi_df[!vi_df$variable %in% c("_baseline_", "_full_model_"), ]
@@ -64,6 +71,7 @@ build_context <- function(all_models, vi_data, pdp_data) {
     ))
   }
 
+  # add partial dependence profile info
   if (!is.null(pdp_data)) {
     pdp_vars <- unique(as.data.frame(pdp_data$agr_profiles)$`_vname_`)
     context_parts <- c(context_parts, paste0(
@@ -76,12 +84,14 @@ build_context <- function(all_models, vi_data, pdp_data) {
   context_parts
 }
 
+# extracts list of valid variable names from importance data
 extract_valid_vars <- function(vi_data) {
   if (is.null(vi_data)) return(c())
   vi_df <- as.data.frame(vi_data)
   unique(vi_df$variable[!vi_df$variable %in% c("_baseline_", "_full_model_")])
 }
 
+# makes the actual api call to openai
 call_openai_api <- function(api_key, system_prompt, user_input) {
   httr2::request("https://api.openai.com/v1/chat/completions") |>
     httr2::req_headers(
@@ -101,6 +111,7 @@ call_openai_api <- function(api_key, system_prompt, user_input) {
     httr2::resp_body_json()
 }
 
+# system prompt
 build_system_prompt <- function(valid_vars) {
   paste0(
     "You are an AI assistant specialized in explaining XAI (Explainable AI) visualizations. ",
@@ -121,10 +132,12 @@ build_system_prompt <- function(valid_vars) {
   )
 }
 
+# parses ai response for visualization commands and updates ui accordingly
 handle_visualization_commands <- function(ai_response, user_question, valid_vars, session) {
   highlight_found <- FALSE
   pdp_found <- FALSE
 
+  # check for highlight command to highlight variable in importance plot
   if (grepl("\\[HIGHLIGHT:", ai_response)) {
     var_name <- sub(".*\\[HIGHLIGHT:([^]]+)\\].*", "\\1", ai_response)
     chat_xai_results$highlight_var <- var_name
@@ -132,6 +145,7 @@ handle_visualization_commands <- function(ai_response, user_question, valid_vars
     highlight_found <- TRUE
   }
 
+  # check for show_pdp command to switch the PDP plot variable
   if (grepl("\\[SHOW_PDP:", ai_response)) {
     var_name <- sub(".*\\[SHOW_PDP:([^]]+)\\].*", "\\1", ai_response)
     updateSelectInput(session, "chat_pdp_variable", selected = var_name)
@@ -139,6 +153,7 @@ handle_visualization_commands <- function(ai_response, user_question, valid_vars
     pdp_found <- TRUE
   }
 
+  # detect variable from user question if no commands found
   if (!highlight_found || !pdp_found) {
     mentioned_var <- detect_variable_in_question(user_question, valid_vars)
 
@@ -153,13 +168,16 @@ handle_visualization_commands <- function(ai_response, user_question, valid_vars
   trimws(ai_response)
 }
 
+# tries to find a variable name mentioned in the user's question
 detect_variable_in_question <- function(question, valid_vars) {
+  # exact match first
   for (v in valid_vars) {
     if (grepl(paste0("\\b", v, "\\b"), question, ignore.case = TRUE)) {
       return(v)
     }
   }
 
+  # fuzzy match for dotted names like "Petal.Length" -> "petal length"
   question_lower <- tolower(question)
   for (v in valid_vars) {
     v_parts <- unlist(strsplit(tolower(v), "\\."))

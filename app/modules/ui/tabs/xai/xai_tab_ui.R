@@ -1,3 +1,4 @@
+# Load XAI tab sections
 source_dir(PATH_UI_XAI_SECTIONS)
 
 # xai_tab_ui <- tagList(
@@ -17,6 +18,7 @@ source_dir(PATH_UI_XAI_SECTIONS)
 #   )
 # )
 
+# XAI tab main layout
 xai_tab_ui <- argonDashBody(
   argonColumn(
   width = "100%",

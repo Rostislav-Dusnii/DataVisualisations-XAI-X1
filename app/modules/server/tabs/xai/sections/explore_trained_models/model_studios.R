@@ -1,3 +1,4 @@
+# creates modelStudio widgets for each trained model
 observeEvent(explainers(), {
 
   expl_list <- explainers()
@@ -8,7 +9,7 @@ observeEvent(explainers(), {
 
   test_data <- dt$data_test_encoded
 
-  # select observations
+  # sample observations for explanation
   new_observation <- test_data[1:4, , drop = FALSE]
   rownames(new_observation) <- paste0("id", seq_len(nrow(new_observation)))
 

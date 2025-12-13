@@ -1,4 +1,4 @@
-
+# generates XAI explanations for a model using DALEX
 generate_xai_for_model <- function(model_idx) {
   tryCatch({
     all_explainers <- explainers()
@@ -13,7 +13,6 @@ generate_xai_for_model <- function(model_idx) {
       return(FALSE)
     }
 
-    # --- Get the explainer for this model ---
     explainer <- all_explainers[[model_idx]]
 
     if (is.null(explainer)) {
@@ -21,6 +20,7 @@ generate_xai_for_model <- function(model_idx) {
       return(FALSE)
     }
 
+    # compute variable importance and partial dependence
     chat_xai_results$var_importance <- DALEX::model_parts(explainer, type = "variable_importance")
     chat_xai_results$partial_dependence <- DALEX::model_profile(explainer, type = "partial")
     chat_xai_results$selected_model_idx <- model_idx
@@ -34,6 +34,7 @@ generate_xai_for_model <- function(model_idx) {
   })
 }
 
+# creates a predict function based on model framework h2o, mlr, etc
 create_predict_function <- function(model_obj) {
   framework <- model_obj$params$framework
   model_class <- class(model_obj$fit)[1]

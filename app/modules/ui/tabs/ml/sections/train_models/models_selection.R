@@ -1,5 +1,6 @@
 source_dir(PATH_UI_TRAIN_CARDS)
 
+# row of model configuration cards
 models_selection <- argonRow(
   glm_h2o,
   rf_h2o,

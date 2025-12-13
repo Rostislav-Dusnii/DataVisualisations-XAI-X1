@@ -1,4 +1,4 @@
-# Define performance table visible on "Compare models performances" tab
+# calculates MAPE and RMSE for each model
 performance_data <- eventReactive(predictions()[["table_results"]], {
   table_results <- predictions()[["table_results"]]
   req(!is.null(table_results))
@@ -41,7 +41,7 @@ output$model_performance_comparison <- renderDT({
 })
 
 
-# Message indicating that results are not available if no model has been running
+# alert when no models trained
 output$message_compare_models_performances <- renderUI({
   trained_models <- model_training_results()$trained_models
   if (length(trained_models) <= 0) {

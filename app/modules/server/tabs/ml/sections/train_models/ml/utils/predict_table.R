@@ -1,3 +1,4 @@
+# generates predictions for H2O models
 predict_table_h2o <- function(model_obj, data_test) {
   table_pred <- h2o.predict(model_obj$fit, as.h2o(data_test)) %>%
     as.data.table() %>%
@@ -7,6 +8,7 @@ predict_table_h2o <- function(model_obj, data_test) {
   table_pred
 }
 
+# generates predictions for MLR models
 predict_table_mlr <- function(model_obj, data_test) {
   preds <- predict(model_obj$fit, newdata = data_test)
   table_pred <- preds$data %>% 
@@ -18,6 +20,7 @@ predict_table_mlr <- function(model_obj, data_test) {
   table_pred
 }
 
+# maps framework to predict function
 predict_table_function_mapping <- list(
   h2o = predict_table_h2o,
   mlr = predict_table_mlr

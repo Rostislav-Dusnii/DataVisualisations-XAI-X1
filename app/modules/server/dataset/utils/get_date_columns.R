@@ -1,3 +1,4 @@
+# finds columns with Date or POSIXct types
 get_date_columns <- function(data) {
   dates_columns_list <- c()
   for (i in colnames(data)) {

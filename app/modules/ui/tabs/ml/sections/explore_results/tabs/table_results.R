@@ -1,3 +1,4 @@
+# predictions results table tab
 table_results <- argonTab(
   tabName = "Table of results",
   active = TRUE,

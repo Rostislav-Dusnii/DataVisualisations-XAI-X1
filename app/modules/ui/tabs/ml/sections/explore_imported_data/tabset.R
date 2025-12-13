@@ -1,5 +1,6 @@
 source_dir(PATH_UI_EXP_IMPORT_TABS)
 
+# data exploration tabset
 tabset <- argonTabSet(
   width = 12,
   id = "tab_input_data",

@@ -1,4 +1,6 @@
-# small helpers shared by modules
+# Small helpers shared by modules
+
+# Convert text to HTML with line breaks and bullets
 markdownify <- function(txt) {
   txt <- gsub("\n\\- ", "<br>• ", txt)
   txt <- gsub("\n\n", "<br><br>", txt)
@@ -6,6 +8,7 @@ markdownify <- function(txt) {
   HTML(txt)
 }
 
+# Call OpenAI API for chat completion
 gpt_complete <- function(system_prompt, user_prompt, model = "gpt-4o-mini", temperature = 0.7) {
   api_key <- Sys.getenv("OPENAI_API_KEY")
 
@@ -32,6 +35,7 @@ gpt_complete <- function(system_prompt, user_prompt, model = "gpt-4o-mini", temp
   response$choices[[1]]$message$content
 }
 
+# Compute correlation and regression stats for x/y variables
 summarize_xy <- function(d, x, y) {
   d <- stats::na.omit(d[, c(x, y), drop = FALSE])
   n <- nrow(d)

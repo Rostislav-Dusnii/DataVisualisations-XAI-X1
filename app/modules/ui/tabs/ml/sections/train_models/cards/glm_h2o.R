@@ -1,3 +1,4 @@
+# GLM model card
 glm_h2o <- argonCard(
   width = 3,
   icon = icon("sliders"),

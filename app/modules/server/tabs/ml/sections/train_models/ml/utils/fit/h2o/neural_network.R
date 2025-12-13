@@ -1,3 +1,4 @@
+# trains H2O deep learning neural network
 fit_neural_network_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Neural network"

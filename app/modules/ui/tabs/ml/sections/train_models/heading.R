@@ -1,3 +1,4 @@
+# train models section header with info modal
 heading <- div(
   align = "center",
   argonButton(

@@ -1,9 +1,10 @@
+# variable visualization: histogram, boxplot, or autocorrelation
 output$variable_graph <- renderPlotly({
   req(input$variables_class_input_rows_selected)
-  
+
   column_name <- current_dataset$available_variables[input$variables_class_input_rows_selected]
   points_serie <- current_dataset$data[[column_name]]
-  
+
   if (input$input_var_graph_type == "Histogram") {
     req(is.numeric(points_serie))
     col_sym <- sym(column_name)

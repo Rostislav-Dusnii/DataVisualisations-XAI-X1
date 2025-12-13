@@ -1,3 +1,4 @@
+# input ID mappings for each model's hyperparameters
 rf_h2o_param_map <- list(
   num_tree_random_forest = "num_tree_random_forest",
   subsampling_rate_random_forest = "subsampling_rate_random_forest",

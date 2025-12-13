@@ -1,4 +1,4 @@
-# Define indicating number of rows contained in testing dataset
+# badge showing train/test split ratio
 output$message_train_test_split <- renderUI({
   argonBadge(text = HTML(paste0(
     "<big><big>Train/Test split:<b>",

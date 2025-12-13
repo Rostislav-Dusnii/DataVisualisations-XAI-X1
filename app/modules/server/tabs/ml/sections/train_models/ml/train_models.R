@@ -1,6 +1,7 @@
 source(path(PATH_TRAIN_UTILS,"fit_function_mapping.R"), local = shared_env)
 source(path(PATH_TRAIN_UTILS,"get_feature_importance.R"), local = shared_env)
 
+# trains selected models and collects results
 train_models <- function(prep_data, y, models_to_train) {
   trained_models <- list()
   all_times <- list()

@@ -1,3 +1,4 @@
+# random train/test split
 split_default_data <- function(data, split) {
   index <- sample(seq_len(nrow(data)), split$train * 0.01 * nrow(data))
   train <- data[index, ]
@@ -9,6 +10,7 @@ split_default_data <- function(data, split) {
   )
 }
 
+# prepares dataset for model training with encoding
 prepare_data_for_models <- function(
   data,
   split = list(train = 70),
@@ -17,12 +19,12 @@ prepare_data_for_models <- function(
   session = shiny::getDefaultReactiveDomain()
 ) {
 
-  # --- split train/test ---
+  # split train/test
   split_output <- split_default_data(data, split)
   data_train <- data.table::as.data.table(split_output$data_train)
   data_test  <- data.table::as.data.table(split_output$data_test)
 
-  # --- sanitize columns ---
+  # convert non-numeric to factors
   for (col in colnames(data_train)) {
     if (!is.numeric(data_train[[col]]) && !is.integer(data_train[[col]])) {
       data_train[[col]] <- as.factor(data_train[[col]])
@@ -30,7 +32,7 @@ prepare_data_for_models <- function(
     }
   }
 
-  # --- apply feature selection ---
+  # apply feature selection
   if (length(selected_features) > 0) {
     keep_cols <- c(selected_features, target_col)
     keep_cols <- keep_cols[keep_cols %in% colnames(data_train)]
@@ -39,7 +41,7 @@ prepare_data_for_models <- function(
     data_test  <- data_test[, keep_cols, with = FALSE]
   }
 
-  # --- encode train/test ---
+  # one-hot encode for model training
   if (!is.na(target_col) && !is.null(target_col)) {
     y_train <- data_train[[target_col]]
     x_train <- data_train[, setdiff(colnames(data_train), target_col), with = FALSE]

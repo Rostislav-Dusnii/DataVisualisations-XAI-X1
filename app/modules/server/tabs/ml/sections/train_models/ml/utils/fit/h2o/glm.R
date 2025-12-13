@@ -1,3 +1,4 @@
+# trains H2O generalized linear model
 fit_glm_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Generalized linear regression"

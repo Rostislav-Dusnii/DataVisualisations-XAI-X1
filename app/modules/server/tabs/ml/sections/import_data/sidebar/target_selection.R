@@ -1,4 +1,4 @@
-# Target selection UI
+# target variable dropdown
 output$target_selection <- renderUI({
   selectInput(
     inputId = "target_selection",
@@ -9,7 +9,7 @@ output$target_selection <- renderUI({
   )
 })
 
-# Update selected target
+# update target on selection change
 observeEvent(input$target_selection, {
   target$value <- input$target_selection
   target$results_table_value <- paste(target$value, " - target", sep = "")

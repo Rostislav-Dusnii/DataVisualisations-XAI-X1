@@ -1,7 +1,9 @@
+# Load tab UI modules
 source_dir(PATH_UI_ML)
 source_dir(PATH_UI_XAI)
 source_dir(PATH_UI_CHATBOT)
 
+# Main content area - conditionally renders each tab
 main <- tags$div(
   id = "main_tabs",
   conditionalPanel(

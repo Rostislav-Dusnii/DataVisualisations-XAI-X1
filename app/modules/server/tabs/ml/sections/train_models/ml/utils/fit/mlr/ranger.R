@@ -1,3 +1,4 @@
+# trains MLR ranger regression model
 fit_ranger_mlr <- function(y, data_train, parameter) {
   parameter$framework <- "mlr"
   model_display_name <- "Ranger Regression"

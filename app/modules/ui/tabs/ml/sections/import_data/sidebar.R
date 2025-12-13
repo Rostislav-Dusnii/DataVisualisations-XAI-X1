@@ -1,3 +1,4 @@
+# sidebar with target/feature selection and status badges
 sidebar <- argonColumn(
   width = 3,
   argonCard(

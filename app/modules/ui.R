@@ -1,5 +1,7 @@
+# Load UI components
 source_dir(PATH_UI)
 
+# Main Shiny UI layout
 ui <- argonDashPage(
   useShinyjs(),
   title = "ML & XAI",

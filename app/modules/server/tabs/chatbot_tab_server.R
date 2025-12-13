@@ -1,4 +1,4 @@
-
+# chatbot tab server - loads all chatbot modules
 source("modules/server/tabs/chatbot/state.R", local = TRUE)
 source("modules/server/tabs/chatbot/ui_outputs.R", local = TRUE)
 source("modules/server/tabs/chatbot/xai_generator.R", local = TRUE)

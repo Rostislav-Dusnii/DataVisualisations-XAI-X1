@@ -1,3 +1,4 @@
+# XAI section header with info modal explaining techniques
 heading <- div(
   align = "center",
   argonButton(

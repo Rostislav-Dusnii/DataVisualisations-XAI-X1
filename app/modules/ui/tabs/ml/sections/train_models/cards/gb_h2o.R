@@ -1,3 +1,4 @@
+# gradient boosting model card
 gb_h2o <- argonCard(
   width = 3,
   icon = icon("sliders"),

@@ -1,3 +1,4 @@
+# trains H2O random forest
 fit_random_forest_h2o <- function(y, data_train, parameter) {
   parameter$framework <- "h2o"
   model_display_name <- "Random forest"

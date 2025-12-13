@@ -1,3 +1,4 @@
+# tab for editing variable types
 edit_imported_data <- argonTab(
   tabName = "Edit imported data",
   active = FALSE,

@@ -1,5 +1,7 @@
+# Load train models UI components
 source_dir(PATH_UI_TRAIN_MODELS)
 
+# Train models section with model selection and train button
 train_models <- argonDashHeader(
   gradient = TRUE,
   color = "default",

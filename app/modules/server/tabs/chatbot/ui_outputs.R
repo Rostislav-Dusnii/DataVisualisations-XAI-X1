@@ -1,10 +1,12 @@
-
+# categorical vars excluded from PDP
 EXCLUDED_PDP_VARS <- c("Species", "species")
 
+# status banner showing current model state
 output$chat_current_model_status <- renderUI({
   all_models <- tryCatch(model_training_results()$trained_models, error = function(e) NULL)
   selected_idx <- chat_xai_results$selected_model_idx
 
+  # no models trained yet
   if (is.null(all_models) || length(all_models) == 0) {
     return(tags$div(
       class = "alert alert-info",
@@ -14,6 +16,7 @@ output$chat_current_model_status <- renderUI({
     ))
   }
 
+  # models exist but none selected
   if (is.null(selected_idx)) {
     model_count <- length(all_models)
     return(tags$div(
@@ -24,6 +27,7 @@ output$chat_current_model_status <- renderUI({
     ))
   }
 
+  # show currently selected model
   model_obj <- all_models[[selected_idx]]
   tags$div(
     class = "alert alert-success",
@@ -36,6 +40,7 @@ output$chat_current_model_status <- renderUI({
   )
 })
 
+# dropdown for PDP variable selection
 output$chat_pdp_variable_selector <- renderUI({
   vi <- chat_xai_results$var_importance
   pdp <- chat_xai_results$partial_dependence
@@ -47,6 +52,7 @@ output$chat_pdp_variable_selector <- renderUI({
   pdp_df <- as.data.frame(pdp$agr_profiles)
   pdp_vars <- unique(pdp_df$`_vname_`)
 
+  # only show numeric vars that have PDP data
   numeric_vars <- vars[vars %in% pdp_vars]
   numeric_vars <- numeric_vars[!numeric_vars %in% EXCLUDED_PDP_VARS]
 

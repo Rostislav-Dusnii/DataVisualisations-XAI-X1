@@ -1,3 +1,4 @@
+# data preview buttons tab
 review_data <- argonTab(
   tabName = "Review data",
   active = FALSE,

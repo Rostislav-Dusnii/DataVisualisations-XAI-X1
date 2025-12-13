@@ -1,5 +1,7 @@
+# Load all ML tab sections
 source_dir(PATH_UI_ML_SECTIONS)
 
+# ML tab main layout - combines all sections
 ml_tab_ui <- argonDashBody(
   argonColumn(
   width = "100%",

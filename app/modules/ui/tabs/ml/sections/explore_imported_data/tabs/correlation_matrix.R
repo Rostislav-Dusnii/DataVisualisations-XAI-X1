@@ -1,3 +1,4 @@
+# correlation matrix tab
 correlation_matrix <- argonTab(
   tabName = "Correlation matrix",
   active = FALSE,

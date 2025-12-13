@@ -1,3 +1,4 @@
+# scatter plot tab with axis selectors
 explore_dataset <- argonTab(
   tabName = "Explore dataset",
   active = TRUE,

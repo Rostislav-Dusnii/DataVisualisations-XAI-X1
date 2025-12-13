@@ -1,4 +1,4 @@
-# Define indicating number of rows contained in testing dataset
+# badge showing training sample count
 output$message_nrow_train_dataset <- renderUI({
   train_data <- train_test_data()$data_train
   req(!is.null(train_data))
