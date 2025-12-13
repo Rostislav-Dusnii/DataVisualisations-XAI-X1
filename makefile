@@ -31,4 +31,4 @@ run_shiny:
 		echo "   make run script=app.R"; \
 		exit 1; \
 	fi; \
-	Rscript -e "renv::load(); shiny::runApp('$(script)')"
+	Rscript -e "renv::load(); shiny::runApp('$(script)', port=8000)"

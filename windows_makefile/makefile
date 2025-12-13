@@ -41,5 +41,5 @@ ifndef script
 	@echo    make run_shiny script=app.R
 	@exit 1
 else
-	$(RSCRIPT) -e "renv::load(); shiny::runApp('$(script)')"
+	$(RSCRIPT) -e "renv::load(); shiny::runApp('$(script)', port=8000)"
 endif
