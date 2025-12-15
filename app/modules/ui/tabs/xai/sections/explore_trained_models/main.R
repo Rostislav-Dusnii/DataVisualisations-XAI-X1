@@ -4,6 +4,6 @@ main <- argonColumn(
   argonCard(
     width = 12, shadow = TRUE,
     uiOutput("message_no_trained_models"),
-    uiOutput("model_studio_tabs")
+    withSpinner(uiOutput("model_studio_tabs"))
   )
 )

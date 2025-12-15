@@ -24,22 +24,31 @@ observeEvent(ignoreNULL = TRUE,
                 global$datapath <-
                   file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
               })
+# Track which buttons we already registered
+registered_buttons <- reactiveVal(character(0))
 
 observe({
   models <- model_training_results()$trained_models
   req(!is.null(models))
-
-  for (model_name in names(models)) {
+  
+  current_buttons <- names(models)
+  prev_buttons <- registered_buttons()
+  
+  # Only create observers for new buttons
+  new_buttons <- setdiff(current_buttons, prev_buttons)
+  if (length(new_buttons) == 0) return()
+  
+  for (m in new_buttons) {
     local({
-      m <- model_name
-      model_obj <- models[[m]]
+      model_name <- m
+      model_obj <- models[[model_name]]
       framework <- model_obj$params$framework
       display_name <- model_obj$name
-
-      button_input_id <- paste0("save_", m)
-
+      button_input_id <- paste0("save_", model_name)
+      
       observeEvent(input[[button_input_id]], {
         folder_res <- isolate(global$datapath)
+        
         # Check if user cancelled
         if (folder_res == "") {
           sendSweetAlert(
@@ -50,7 +59,7 @@ observe({
           )
           return(NULL)
         }
-
+        
         # Lookup save function
         save_fn <- save_function_mapping[[framework]]
         if (is.null(save_fn)) {
@@ -62,10 +71,10 @@ observe({
           )
           return(NULL)
         }
-
+        
         # Save the model
         saved_file <- save_fn(model_obj, save_dir = folder_res)
-
+        
         sendSweetAlert(
           session,
           title = "Success",
@@ -75,5 +84,7 @@ observe({
       })
     })
   }
+  
+  # Update registered buttons
+  registered_buttons(c(prev_buttons, new_buttons))
 })
-

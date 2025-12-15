@@ -2,7 +2,6 @@
 performance_data <- eventReactive(predictions()[["table_results"]], {
   table_results <- predictions()[["table_results"]]
   req(!is.null(table_results))
-  req(ncol(table_results) > ncol(current_dataset$data))
 
   y <- isolate(target$results_table_value)
 
